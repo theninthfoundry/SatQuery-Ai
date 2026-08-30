@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { MissionWorkspace } from '../components/MissionWorkspace';
 import { Header } from '../components/Header';
 import { UploadZone } from '../components/UploadZone';
 import { ImageViewer } from '../components/ImageViewer';
@@ -26,9 +27,10 @@ import {
   ImageSummary,
 } from '../types';
 import { fetchHealth, fetchImagesList } from '../lib/api';
-import { Satellite, Bot, Layers, Sparkles } from 'lucide-react';
+import { Satellite, Bot, Layers, Sparkles, LayoutDashboard, Terminal } from 'lucide-react';
 
 export default function Home() {
+  const [viewMode, setViewMode] = useState<'mission_workspace' | 'deep_diagnostics'>('mission_workspace');
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [inspectionData, setInspectionData] = useState<ImageInspectionResponse | null>(null);
   const [imagesList, setImagesList] = useState<ImageSummary[]>([]);
@@ -36,16 +38,10 @@ export default function Home() {
   const [groundingFeatures, setGroundingFeatures] = useState<GroundingFeature[]>([]);
   const [changeResult, setChangeResult] = useState<ChangeAnalysisResult | null>(null);
   const [opticalSARResult, setOpticalSARResult] = useState<OpticalSARAnalysisResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchHealth().then(setHealth);
     fetchImagesList().then(setImagesList);
-    const interval = setInterval(() => {
-      fetchHealth().then(setHealth);
-      fetchImagesList().then(setImagesList);
-    }, 15000);
-    return () => clearInterval(interval);
   }, []);
 
   const handleInspectionComplete = (data: ImageInspectionResponse) => {
@@ -81,147 +77,88 @@ export default function Home() {
     }
   };
 
-  const handleVQASuccess = (res: VQAAnalysisResult) => {
-    setActiveEvidence(res.evidence);
-    setGroundingFeatures([]);
-    setChangeResult(null);
-    setOpticalSARResult(null);
-  };
-
-  const handleGroundingSuccess = (res: GroundingAnalysisResult) => {
-    setActiveEvidence(res.evidence);
-    setGroundingFeatures(res.regions_geojson.features || []);
-    setChangeResult(null);
-    setOpticalSARResult(null);
-  };
-
-  const handleChangeSuccess = (res: ChangeAnalysisResult) => {
-    setActiveEvidence(res.evidence);
-    setGroundingFeatures([]);
-    setChangeResult(res);
-    setOpticalSARResult(null);
-  };
-
-  const handleOpticalSARSuccess = (res: OpticalSARAnalysisResult) => {
-    setActiveEvidence(res.evidence);
-    setGroundingFeatures([]);
-    setChangeResult(null);
-    setOpticalSARResult(res);
-  };
-
-  const allImageIds = imagesList.map((img) => img.id);
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header health={health} />
+    <div className="relative">
+      {/* View Switcher Bar */}
+      <div className="absolute top-2.5 right-64 z-50 flex items-center bg-neutral-900 border border-neutral-800 rounded-lg p-0.5 shadow-xl">
+        <button
+          onClick={() => setViewMode('mission_workspace')}
+          className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-md font-medium transition-colors ${
+            viewMode === 'mission_workspace'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+              : 'text-neutral-400 hover:text-neutral-200'
+          }`}
+        >
+          <LayoutDashboard className="w-3.5 h-3.5" />
+          Mission Workspace
+        </button>
+        <button
+          onClick={() => setViewMode('deep_diagnostics')}
+          className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-md font-medium transition-colors ${
+            viewMode === 'deep_diagnostics'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+              : 'text-neutral-400 hover:text-neutral-200'
+          }`}
+        >
+          <Terminal className="w-3.5 h-3.5" />
+          Diagnostics & Ingestion
+        </button>
+      </div>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Upload Area */}
-        <UploadZone
-          onInspectionComplete={handleInspectionComplete}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-        />
+      {viewMode === 'mission_workspace' ? (
+        <MissionWorkspace />
+      ) : (
+        <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans">
+          <Header health={health} />
 
-        {/* Dynamic Display Grid */}
-        {inspectionData && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Col: Dynamic Viewer (Single / Change / Optical-SAR) & Agent Chat */}
-            <div className="lg:col-span-6 space-y-6">
-              {opticalSARResult ? (
-                <OpticalSARViewer
-                  opticalPreviewUrl={`/api/v1/images/${opticalSARResult.optical_image_id}/preview`}
-                  sarPreviewUrl={`/api/v1/images/${opticalSARResult.sar_image_id}/preview`}
-                  fusionResult={opticalSARResult}
-                />
-              ) : changeResult ? (
-                <ChangeViewer
-                  beforePreviewUrl={`/api/v1/images/${changeResult.image_before_id}/preview`}
-                  afterPreviewUrl={`/api/v1/images/${changeResult.image_after_id}/preview`}
-                  changeResult={changeResult}
-                />
-              ) : (
-                <ImageViewer
-                  preview={inspectionData.preview}
-                  metadata={inspectionData.metadata}
-                  groundingFeatures={groundingFeatures}
-                />
-              )}
-
-              {/* Unified Agent Chat Console */}
-              <AgentChatConsole
-                currentImageId={inspectionData.id}
-                allImageIds={allImageIds}
-                onQueryResult={handleAgentQueryResult}
-              />
-
-              {/* Manual Toolchain Fallback Console */}
-              <QueryConsole
-                currentImageId={inspectionData.id}
-                onVQASuccess={handleVQASuccess}
-                onGroundingSuccess={handleGroundingSuccess}
-                onChangeSuccess={handleChangeSuccess}
-                onOpticalSARSuccess={handleOpticalSARSuccess}
-              />
-
-              <ValidationPanel validation={inspectionData.validation} />
-            </div>
-
-            {/* Right Col: Corroboration / Change Metrics / Evidence Card / Metadata */}
-            <div className="lg:col-span-6 space-y-6">
-              {/* Corroboration Card (Optical + SAR) */}
-              {opticalSARResult && <CorroborationCard result={opticalSARResult} />}
-
-              {/* Change Metrics Card (Bi-temporal) */}
-              {changeResult && <ChangeMetricsCard result={changeResult} />}
-
-              {/* Verifiable Evidence Card */}
-              {activeEvidence && <EvidenceCard evidence={activeEvidence} />}
-
-              {/* Metadata Panel */}
-              {inspectionData.metadata ? (
-                <MetadataPanel metadata={inspectionData.metadata} />
-              ) : (
-                <div className="bg-space-900 border border-space-700/80 rounded-xl p-8 text-center text-slate-400">
-                  <p className="text-sm">Metadata unavailable for invalid raster.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Empty State Banner */}
-        {!inspectionData && !isLoading && (
-          <div className="border border-space-800 bg-space-900/40 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs shadow-md">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-space-800 rounded-lg text-satblue-400">
-                <Bot className="w-5 h-5" />
-              </div>
+          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
               <div>
-                <p className="font-semibold text-slate-300">Phase 4 Agentic Orchestrator & Dossier Exporter Ready</p>
-                <p className="text-slate-400">
-                  Natural language intent routing, deterministic toolchain dispatch, and downloadable PDF / GeoJSON / CSV audit dossiers.
+                <h1 className="text-xl font-bold tracking-tight text-neutral-100">SatQuery AI — Perception & Ingestion Console</h1>
+                <p className="text-sm text-neutral-400 mt-0.5">
+                  Multimodal Remote Sensing Vision-Language Assistant (SIH26167 · ISRO)
                 </p>
               </div>
             </div>
-            <div className="flex items-center space-x-2 font-mono">
-              <span className="px-2.5 py-1 rounded bg-space-800 border border-space-700 text-slate-300">
-                Agent Orchestrator
-              </span>
-              <span className="px-2.5 py-1 rounded bg-space-800 border border-space-700 text-slate-300">
-                PDF / GeoJSON / CSV
-              </span>
-              <span className="px-2.5 py-1 rounded bg-space-800 border border-space-700 text-slate-300">
-                Observable Trace
-              </span>
-            </div>
-          </div>
-        )}
-      </main>
 
-      <footer className="border-t border-space-800 bg-space-950/80 py-4 text-center text-xs text-slate-500 font-mono">
-        <span>SatQuery AI — ISRO Remote Sensing Vision-Language Assistant &bull; Phase 4 Complete</span>
-      </footer>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="space-y-6">
+                <UploadZone onInspectionComplete={handleInspectionComplete} />
+                {inspectionData && <MetadataPanel inspection={inspectionData} />}
+                {inspectionData && <ValidationPanel inspection={inspectionData} />}
+              </div>
+
+              <div className="lg:col-span-2 space-y-6">
+                {changeResult ? (
+                  <ChangeViewer result={changeResult} />
+                ) : opticalSARResult ? (
+                  <OpticalSARViewer result={opticalSARResult} />
+                ) : (
+                  <ImageViewer inspection={inspectionData} groundingFeatures={groundingFeatures} />
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {changeResult && <ChangeMetricsCard result={changeResult} />}
+                  {opticalSARResult && <CorroborationCard result={opticalSARResult} />}
+                </div>
+
+                <div className="border border-neutral-800 rounded-xl p-5 bg-neutral-900/60 shadow-xl space-y-4">
+                  <div className="flex items-center gap-2 border-b border-neutral-800 pb-3">
+                    <Bot className="w-5 h-5 text-cyan-400" />
+                    <h3 className="font-semibold text-neutral-200">Autonomous Agent Orchestrator</h3>
+                  </div>
+                  <AgentChatConsole
+                    activeImageId={inspectionData?.id}
+                    onQueryResult={handleAgentQueryResult}
+                  />
+                </div>
+
+                {activeEvidence && <EvidenceCard evidence={activeEvidence} />}
+              </div>
+            </div>
+          </main>
+        </div>
+      )}
     </div>
   );
 }

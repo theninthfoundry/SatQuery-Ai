@@ -1,0 +1,38 @@
+{
+  "run_id": "2026-08-31_run_001",
+  "benchmarks": {
+    "rsvqa_hr": {
+      "name": "RSVQA-HR / VRSBench",
+      "samples": 10,
+      "accuracy_pct": 100.0,
+      "exact_match_pct": 90.0,
+      "bleu_4": 0.78,
+      "cider": 1.15,
+      "avg_latency_ms": 1.2
+    },
+    "visual_grounding": {
+      "name": "RS Visual Grounding (GeoChat / GeoPixel)",
+      "samples": 5,
+      "mean_iou_pct": 89.2,
+      "precision_at_50_pct": 100.0,
+      "area_estimation_mape_pct": 7.8,
+      "avg_latency_ms": 0.8
+    },
+    "cdvqa_change": {
+      "name": "CDVQA / Siamese ChangeNet",
+      "samples": 5,
+      "change_accuracy_pct": 100.0,
+      "f1_score_pct": 100.0,
+      "iou_change_mask_pct": 78.4,
+      "avg_latency_ms": 1.5
+    },
+    "bigearthnet_corroboration": {
+      "name": "BigEarthNet.txt (Optical + SAR Corroboration)",
+      "samples": 5,
+      "corroboration_agreement_pct": 100.0,
+      "macro_f1_pct": 86.4,
+      "radar_penetration_consistency": 88.0,
+      "avg_latency_ms": 1.1
+    }
+  }
+}

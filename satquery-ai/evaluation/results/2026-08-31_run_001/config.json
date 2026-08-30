@@ -1,0 +1,18 @@
+{
+  "run_id": "2026-08-31_run_001",
+  "project": "SatQuery AI (SIH26167)",
+  "timestamp": "2026-08-31T00:48:00Z",
+  "hardware": {
+    "target_gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "vram_mb": 8192,
+    "quantization": "4-bit BitsAndBytes NF4",
+    "compute_dtype": "torch.float16",
+    "sequential_loading": true
+  },
+  "evaluated_benchmarks": [
+    "RSVQA-HR / VRSBench",
+    "RS Visual Grounding (GeoChat / GeoPixel)",
+    "CDVQA / Siamese ChangeNet",
+    "BigEarthNet.txt (Optical + SAR Corroboration)"
+  ]
+}

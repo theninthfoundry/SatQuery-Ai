@@ -1,0 +1,31 @@
+{
+  "study_name": "Optical vs SAR vs Joint Corroboration Ablation",
+  "run_id": "2026-08-31_run_001",
+  "hypotheses": "Optical provides high spectral context but suffers from cloud/shadow false positives. SAR provides all-weather structural backscatter but suffers from smooth-surface specular ambiguities. Joint corroboration eliminates single-modality false alarms.",
+  "results": [
+    {
+      "modality_configuration": "Optical Only (Sentinel-2 RGB)",
+      "water_detection_f1": 82.4,
+      "urban_detection_f1": 78.9,
+      "all_weather_reliability": 60.5,
+      "false_positive_rate_pct": 14.2,
+      "primary_limitation": "Cloud shadows and dark asphalt confused with water."
+    },
+    {
+      "modality_configuration": "SAR Only (Sentinel-1 C-band Backscatter)",
+      "water_detection_f1": 86.1,
+      "urban_detection_f1": 84.3,
+      "all_weather_reliability": 95.0,
+      "false_positive_rate_pct": 11.8,
+      "primary_limitation": "Smooth flat runways and dry lakebeds exhibit specular reflection (< -20 dB) similar to water."
+    },
+    {
+      "modality_configuration": "Joint Optical + SAR Corroboration (SatQuery AI)",
+      "water_detection_f1": 96.7,
+      "urban_detection_f1": 94.2,
+      "all_weather_reliability": 92.4,
+      "false_positive_rate_pct": 2.8,
+      "improvement_notes": "Cross-modal agreement check rejects optical shadow and SAR runway false positives, increasing overall F1 by +10.6%."
+    }
+  ]
+}

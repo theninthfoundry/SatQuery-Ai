@@ -5,16 +5,19 @@ import { AgentQueryResponse } from '../types';
 import { ReportExportModal } from './ReportExportModal';
 
 interface AgentChatConsoleProps {
-  currentImageId: string | null;
-  allImageIds: string[];
+  currentImageId?: string | null;
+  activeImageId?: string | null;
+  allImageIds?: string[];
   onQueryResult: (res: AgentQueryResponse) => void;
 }
 
 export const AgentChatConsole: React.FC<AgentChatConsoleProps> = ({
   currentImageId,
-  allImageIds,
+  activeImageId,
+  allImageIds = [],
   onQueryResult,
 }) => {
+  const effectiveImageId = currentImageId || activeImageId || null;
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,14 +26,14 @@ export const AgentChatConsole: React.FC<AgentChatConsoleProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim() || !currentImageId) return;
+    if (!query.trim() || !effectiveImageId) return;
 
     setError(null);
     setIsLoading(true);
 
     try {
       // Pass current image plus any other registered images for multi-modal / multitemporal contexts
-      const imageIds = [currentImageId, ...allImageIds.filter((id) => id !== currentImageId)];
+      const imageIds = [effectiveImageId, ...allImageIds.filter((id) => id !== effectiveImageId)];
       const response = await submitAgentQuery(query, imageIds);
       setLastResponse(response);
       onQueryResult(response);
@@ -83,16 +86,16 @@ export const AgentChatConsole: React.FC<AgentChatConsoleProps> = ({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={
-            !currentImageId
+            !effectiveImageId
               ? 'Upload an image first to query...'
               : 'Ask any natural-language question or give an instruction...'
           }
-          disabled={!currentImageId || isLoading}
+          disabled={!effectiveImageId || isLoading}
           className="flex-1 bg-space-950/80 border border-space-700 rounded-lg px-4 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-satblue-400 transition-colors disabled:opacity-50 font-mono"
         />
         <button
           type="submit"
-          disabled={!currentImageId || !query.trim() || isLoading}
+          disabled={!effectiveImageId || !query.trim() || isLoading}
           className="px-4 py-2.5 bg-satblue-600 hover:bg-satblue-500 disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors shadow-sm"
         >
           {isLoading ? (
@@ -105,7 +108,7 @@ export const AgentChatConsole: React.FC<AgentChatConsoleProps> = ({
       </form>
 
       {/* Suggested prompts */}
-      {currentImageId && (
+      {effectiveImageId && (
         <div className="space-y-1 pt-1">
           <span className="text-[10px] font-mono text-slate-500 uppercase block">Sample Prompts:</span>
           <div className="flex flex-wrap gap-1.5">

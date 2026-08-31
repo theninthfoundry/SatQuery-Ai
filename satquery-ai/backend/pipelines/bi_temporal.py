@@ -12,6 +12,7 @@ from ..config import settings
 from ..models_db import ImageRecord, AnalysisJob
 from ..models.change import change_detector_adapter
 from ..geospatial.geometry import pixel_to_coords, HAS_GEO
+from ..geospatial.registration import align_image_pairs
 from ..evidence import (
     build_evidence,
     compute_multimodal_confidence,
@@ -222,7 +223,22 @@ def run_bitemporal_change_pipeline(
         )
     )
 
-    # Step 2: Siamese Change Detection Inference (Real Tensor Mask)
+    # Step 2: Automated ORB / RANSAC Keypoint Co-Registration Check
+    t_reg = time.perf_counter()
+    _, measured_reg_score, reg_diag = align_image_pairs(before_path, after_path)
+    combined_reg_quality = round(float(reg_quality * 0.5 + measured_reg_score * 0.5), 2)
+    steps.append(
+        ExecutionStep(
+            step_number=2,
+            tool="auto_keypoint_registration",
+            description=f"ORB/RANSAC Co-Registration: {reg_diag.get('status', 'OK')} (Matches: {reg_diag.get('good_matches', 0)}, Quality: {int(measured_reg_score * 100)}%)",
+            status="completed",
+            duration_ms=int((time.perf_counter() - t_reg) * 1000),
+            output_summary=f"Score: {measured_reg_score}",
+        )
+    )
+
+    # Step 3: Siamese Change Detection Inference (Real Tensor Mask)
     t1 = time.perf_counter()
     detection_res = change_detector_adapter.detect(before_path, after_path, threshold=threshold)
     change_percent = detection_res["change_percent"]
@@ -235,7 +251,7 @@ def run_bitemporal_change_pipeline(
 
     steps.append(
         ExecutionStep(
-            step_number=2,
+            step_number=3,
             tool="siamese_change_inference",
             description=f"Predicted change probability map with Siamese Network (Threshold: {threshold}, Changed: {change_percent}%)",
             status="completed",
@@ -245,7 +261,7 @@ def run_bitemporal_change_pipeline(
         )
     )
 
-    # Step 3: Affine Polygonization and Ground Area Engine directly from neural output
+    # Step 4: Affine Polygonization and Ground Area Engine directly from neural output
     t2 = time.perf_counter()
     meta_json = before_row.metadata_json or {}
     transform = meta_json.get("transform", [1.0, 0.0, 0.0, 0.0, 1.0, 0.0])
@@ -267,7 +283,7 @@ def run_bitemporal_change_pipeline(
 
     steps.append(
         ExecutionStep(
-            step_number=3,
+            step_number=4,
             tool="affine_polygonization_and_area",
             description=f"Extracted {len(features)} change clusters covering {total_area_m2:,.1f} m² ({total_area_ha} ha)",
             status="completed",
@@ -276,7 +292,7 @@ def run_bitemporal_change_pipeline(
         )
     )
 
-    # Step 4: Confidence Engine
+    # Step 5: Confidence & Calibration Engine
     t3 = time.perf_counter()
     x_res = 10.0
     y_res = 10.0
@@ -286,7 +302,7 @@ def run_bitemporal_change_pipeline(
 
     confidence = compute_multimodal_confidence(
         model_confidence=model_conf,
-        registration_quality=reg_quality,
+        registration_quality=combined_reg_quality,
         sar_agreement=None,
         x_res=x_res,
         y_res=y_res,
@@ -294,9 +310,9 @@ def run_bitemporal_change_pipeline(
 
     steps.append(
         ExecutionStep(
-            step_number=4,
+            step_number=5,
             tool="evaluate_confidence_and_provenance",
-            description=f"Calculated multimodal confidence: {int(confidence.overall * 100)}%",
+            description=f"Calculated calibrated confidence: {int((confidence.calibrated_probability or confidence.overall) * 100)}%",
             status="completed",
             duration_ms=int((time.perf_counter() - t3) * 1000),
         )

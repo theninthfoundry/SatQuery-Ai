@@ -79,6 +79,8 @@ export async function submitAgentQuery(
   return await res.json();
 }
 
+export const executeAgentQuery = submitAgentQuery;
+
 export async function submitVQA(imageId: string, question: string): Promise<VQAAnalysisResult> {
   const res = await fetch(`${API_BASE}/api/v1/analysis/vqa`, {
     method: 'POST',

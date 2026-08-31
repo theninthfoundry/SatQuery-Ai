@@ -1,12 +1,13 @@
-"""Deterministic confidence calculation engine for SatQuery AI.
+"""Deterministic Evidence Score calculation engine for SatQuery AI.
 
 Adheres strictly to the architectural principle:
-Confidence is computed from measurable signals (model logits, spatial resolution / GSD,
-and registration quality), never fabricated or hallucinated by an LLM.
+Evidence Score is computed deterministically from measurable signals (model output certainty,
+spatial resolution / GSD suitability, and co-registration quality), never fabricated or hallucinated.
 """
 
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field
+from .calibration import platt_scale
 
 
 @dataclass
@@ -16,12 +17,18 @@ class ConfidenceScore:
     resolution_score: float
     registration_score: Optional[float] = None
     sar_agreement_score: Optional[float] = None
+    calibrated_probability: Optional[float] = None
+    score_type: str = "deterministic_evidence_score"
     factors: Dict[str, float] = field(default_factory=dict)
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "overall": self.overall,
+            "evidence_score": self.overall,
+            "calibrated_probability": self.calibrated_probability or self.overall,
+            "score_type": self.score_type,
+            "description": "Evidence Score — Resolution, Registration & Model Evidence",
             "model_score": self.model_score,
             "resolution_score": self.resolution_score,
             "registration_score": self.registration_score,
@@ -58,10 +65,10 @@ def compute_vqa_confidence(
     y_res: float = 10.0,
     box_area_ratio: Optional[float] = None,
 ) -> ConfidenceScore:
-    """Compute verified confidence for a single-image VQA or Grounding task."""
+    """Compute deterministic evidence score for a single-image VQA or Grounding task."""
     res_score = calculate_spatial_resolution_score(x_res, y_res, task_type="vqa")
 
-    # Weights: 70% model confidence from softmax/logits, 30% spatial GSD suitability
+    # Weights: 70% model certainty from softmax/logits, 30% spatial GSD suitability
     weights = {"model": 0.70, "resolution": 0.30}
     overall = (model_confidence * weights["model"]) + (res_score * weights["resolution"])
     overall = round(max(0.0, min(1.0, overall)), 2)
@@ -69,13 +76,17 @@ def compute_vqa_confidence(
     notes = [
         f"Model certainty: {int(model_confidence * 100)}%",
         f"Spatial resolution rating: {int(res_score * 100)}% (GSD: {round(x_res, 1)}m)",
+        f"Evidence score: {int(overall * 100)}% (Resolution & Model Composite)",
     ]
 
     if box_area_ratio is not None and box_area_ratio < 0.001:
         notes.append("Warning: Grounded object is extremely small relative to scene dimensions.")
 
+    calibrated = platt_scale(overall)
+
     return ConfidenceScore(
         overall=overall,
+        calibrated_probability=calibrated,
         model_score=round(model_confidence, 2),
         resolution_score=round(res_score, 2),
         factors=weights,
@@ -90,7 +101,7 @@ def compute_multimodal_confidence(
     x_res: float = 10.0,
     y_res: float = 10.0,
 ) -> ConfidenceScore:
-    """Compute confidence for bi-temporal or optical-SAR analysis."""
+    """Compute deterministic evidence score for bi-temporal or optical-SAR analysis."""
     res_score = calculate_spatial_resolution_score(x_res, y_res)
 
     if sar_agreement is not None:
@@ -110,16 +121,19 @@ def compute_multimodal_confidence(
         )
 
     overall = round(max(0.0, min(1.0, overall)), 2)
+    calibrated = platt_scale(overall)
 
     notes = [
         f"Model probability: {int(model_confidence * 100)}%",
         f"Co-registration quality: {int(registration_quality * 100)}%",
+        f"Evidence score: {int(overall * 100)}% (Resolution, Registration & Model Composite)",
     ]
     if sar_agreement is not None:
         notes.append(f"SAR cross-modal agreement: {int(sar_agreement * 100)}%")
 
     return ConfidenceScore(
         overall=overall,
+        calibrated_probability=calibrated,
         model_score=round(model_confidence, 2),
         resolution_score=round(res_score, 2),
         registration_score=round(registration_quality, 2),

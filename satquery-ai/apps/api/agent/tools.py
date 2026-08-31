@@ -47,8 +47,54 @@ def detect_objects(image_id: str, object_class: str) -> Dict[str, Any]:
     output_schema={"classes": "dict[str, float]", "confidence": "float"},
 )
 def segment_landcover(image_id: str) -> Dict[str, Any]:
-    # TODO: replace with a real segmentation model.
-    return {"classes": {"built_up": 0.3, "vegetation": 0.5, "water": 0.2}, "confidence": 0.65}
+    """
+    Real model wired in (models/landcover/ — architecture + train.py +
+    infer.py). Same honest-failure pattern as detect_change: missing DB
+    row or missing file on disk returns a clear "answer" explaining why,
+    never a fabricated fraction breakdown.
+    """
+    from ..db import SessionLocal
+    from ..models import Image as ImageRow
+
+    db = SessionLocal()
+    try:
+        image_row = db.get(ImageRow, image_id)
+    finally:
+        db.close()
+
+    if not image_row:
+        return {
+            "classes": {},
+            "confidence": 0.0,
+            "answer": "Referenced image was not found in the database.",
+        }
+
+    try:
+        result = _landcover_classifier().classify(image_row.path)
+    except FileNotFoundError:
+        return {
+            "classes": {},
+            "confidence": 0.0,
+            "answer": (
+                f"Registered image path {image_row.path!r} not found on disk — "
+                "Phase 0 only stores image metadata, not files."
+            ),
+        }
+
+    return result
+
+
+_landcover_singleton = None
+
+
+def _landcover_classifier():
+    """Lazy singleton so the (small) model loads once, not per-request."""
+    global _landcover_singleton
+    if _landcover_singleton is None:
+        from models.landcover.infer import LandCoverClassifier
+
+        _landcover_singleton = LandCoverClassifier()
+    return _landcover_singleton
 
 
 @tool(
@@ -128,18 +174,116 @@ def _change_detector():
 @tool(
     name="sar_corroborate",
     description=(
-        "Cross-check an optical change result against a SAR backscatter proxy "
-        "for the same AOI/date pair. This is corroboration, not fusion — see PRD 7.4."
+        "Cross-check an optical change result against a real SAR backscatter "
+        "change proxy for the same AOI. This is corroboration, not fusion — "
+        "see PRD 7.4. Resolves its own SAR image pair for the AOI (independent "
+        "of whatever optical images detect_change is using)."
     ),
-    input_schema={"aoi_id": "string", "change_job_id": "string"},
-    output_schema={"corroboration_score": "float", "available": "bool"},
+    input_schema={"aoi_id": "string"},
+    output_schema={
+        "corroboration_score": "float",
+        "available": "bool",
+        "sar_change_percent": "float",
+    },
 )
-def sar_corroborate(aoi_id: str, change_job_id: str) -> Dict[str, Any]:
-    # TODO: replace with a real SAR log-ratio backscatter-change proxy.
-    # If SAR data isn't usable for this AOI, return available=False rather
-    # than fabricating a score (see PRD Section 10) — an honest "unavailable"
-    # is worth more in a demo than an invented number.
-    return {"corroboration_score": 0.82, "available": True}
+def sar_corroborate(aoi_id: str) -> Dict[str, Any]:
+    """
+    Real implementation, no learned model involved (models/sar/proxy.py is
+    a deterministic log-ratio statistic, not something that gets trained).
+    Schema note: the original stub declared change_job_id as an input —
+    dropped here. There's no persisted AnalysisJob/change-result table yet
+    to resolve a job ID against, so this resolves both the SAR and optical
+    image pairs directly from the AOI instead. Add change_job_id back once
+    analysis jobs are actually persisted (PRD Section 12).
+    """
+    from sqlalchemy import desc
+
+    from ..db import SessionLocal
+    from ..models import Image as ImageRow
+
+    db = SessionLocal()
+    try:
+        sar_images = (
+            db.query(ImageRow)
+            .filter(ImageRow.aoi_id == aoi_id, ImageRow.sensor == "sar")
+            .order_by(desc(ImageRow.acquisition_date))
+            .limit(2)
+            .all()
+        )
+        optical_images = (
+            db.query(ImageRow)
+            .filter(ImageRow.aoi_id == aoi_id, ImageRow.sensor == "optical")
+            .order_by(desc(ImageRow.acquisition_date))
+            .limit(2)
+            .all()
+        )
+    finally:
+        db.close()
+
+    unavailable = {"corroboration_score": 0.0, "available": False, "sar_change_percent": 0.0}
+
+    if len(sar_images) < 2:
+        return {
+            **unavailable,
+            "answer": "SAR corroboration unavailable — fewer than two SAR images are registered for this AOI.",
+        }
+
+    sar_after, sar_before = sar_images[0], sar_images[1]  # ordered most-recent-first
+    try:
+        sar_result = _sar_proxy().compute(sar_before.path, sar_after.path)
+    except FileNotFoundError:
+        return {**unavailable, "answer": "Registered SAR image path(s) not found on disk."}
+
+    if len(optical_images) < 2:
+        return {
+            **unavailable,
+            "sar_change_percent": sar_result["sar_change_percent"],
+            "answer": (
+                f"SAR-only signal: {sar_result['sar_change_percent']}% of the AOI shows a "
+                "backscatter change, but no optical pair is registered to corroborate it against."
+            ),
+        }
+
+    optical_after, optical_before = optical_images[0], optical_images[1]
+    try:
+        optical_result = _change_detector().detect(optical_before.path, optical_after.path)
+    except FileNotFoundError:
+        return {
+            **unavailable,
+            "sar_change_percent": sar_result["sar_change_percent"],
+            "answer": (
+                f"SAR-only signal: {sar_result['sar_change_percent']}% — registered optical "
+                "image path(s) not found on disk."
+            ),
+        }
+
+    # Corroboration = 1 minus the normalized gap between two *independent*
+    # change estimates. This is not spatial polygon overlap (that needs
+    # persisted per-AOI analysis jobs — see PRD Open Questions) — it's an
+    # honest, simple agreement measure between two separately-computed
+    # change percentages, not a fabricated "agreement" number.
+    gap = abs(sar_result["sar_change_percent"] - optical_result["change_percent"]) / 100
+    corroboration_score = round(max(0.0, 1 - gap), 2)
+
+    return {
+        "corroboration_score": corroboration_score,
+        "available": True,
+        "sar_change_percent": sar_result["sar_change_percent"],
+        "optical_change_percent": optical_result["change_percent"],
+        "optical_is_trained": optical_result["is_trained"],
+    }
+
+
+_sar_proxy_singleton = None
+
+
+def _sar_proxy():
+    global _sar_proxy_singleton
+    if _sar_proxy_singleton is None:
+        from models.sar.proxy import SARChangeProxy
+
+        _sar_proxy_singleton = SARChangeProxy()
+    return _sar_proxy_singleton
 
 
 @tool(

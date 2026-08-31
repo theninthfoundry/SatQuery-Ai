@@ -17,6 +17,12 @@ fi
 echo "📁 Pre-seeding demonstration datasets..."
 python3 satquery-ai/scripts/seed_demo_data.py
 
+# Ensure frontend dependencies are installed
+if [ ! -d "satquery-ai/apps/web/node_modules" ]; then
+    echo "📦 Installing frontend dependencies..."
+    (cd satquery-ai/apps/web && npm install)
+fi
+
 # Launch FastAPI Backend
 echo "🚀 Launching FastAPI Backend on http://127.0.0.1:8000..."
 cd satquery-ai

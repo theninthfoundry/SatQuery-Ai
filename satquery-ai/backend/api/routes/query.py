@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/v1/query", tags=["query"])
 
 class AgentQueryRequest(BaseModel):
     query: str
-    image_ids: List[str]
+    image_ids: Optional[List[str]] = None
     aoi_id: Optional[str] = None
 
 
@@ -21,9 +21,18 @@ class AgentQueryRequest(BaseModel):
 def handle_agent_query(payload: AgentQueryRequest, db: Session = Depends(get_db)):
     """Dispatch natural-language query to the autonomous agent orchestrator."""
     try:
+        image_ids = payload.image_ids
+        if not image_ids:
+            from ...models_db import ImageRecord
+            all_imgs = db.query(ImageRecord).all()
+            image_ids = [img.id for img in all_imgs]
+
+        if not image_ids:
+            raise ValueError("No images found in database. Please upload or seed images first.")
+
         result = agent_orchestrator.dispatch_query(
             query=payload.query,
-            image_ids=payload.image_ids,
+            image_ids=image_ids,
             db=db,
             aoi_id=payload.aoi_id,
         )

@@ -5,15 +5,21 @@ import { ImageInspectionResponse } from '../types';
 
 interface UploadZoneProps {
   onInspectionComplete: (data: ImageInspectionResponse) => void;
-  isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
+  isLoading?: boolean;
+  setIsLoading?: (loading: boolean) => void;
 }
 
 export const UploadZone: React.FC<UploadZoneProps> = ({
   onInspectionComplete,
-  isLoading,
-  setIsLoading,
+  isLoading: externalLoading,
+  setIsLoading: externalSetIsLoading,
 }) => {
+  const [internalLoading, setInternalLoading] = useState(false);
+  const loading = externalLoading ?? internalLoading;
+  const setLoading = (val: boolean) => {
+    setInternalLoading(val);
+    if (externalSetIsLoading) externalSetIsLoading(val);
+  };
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,14 +36,14 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
 
   const processFile = async (file: File) => {
     setError(null);
-    setIsLoading(true);
+    setLoading(true);
     try {
       const result = await inspectImageFile(file);
       onInspectionComplete(result);
     } catch (err: any) {
       setError(err.message || 'Failed to inspect image');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -77,10 +83,10 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
           accept=".tif,.tiff,.geotif,.geotiff,.png,.jpg,.jpeg"
           onChange={handleChange}
           className="hidden"
-          disabled={isLoading}
+          disabled={loading}
         />
 
-        {isLoading ? (
+        {loading ? (
           <div className="flex flex-col items-center space-y-3 py-3">
             <Loader2 className="w-8 h-8 text-satblue-400 animate-spin" />
             <div className="text-center">

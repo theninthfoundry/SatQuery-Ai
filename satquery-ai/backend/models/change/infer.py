@@ -41,18 +41,34 @@ class ChangeDetector:
         self.model = None
         self.device = "cpu"
         self.is_trained = False
+        self.checkpoint_path = None
 
         if HAS_TORCH:
             self.device = torch.device(device if device else ("cuda" if torch.cuda.is_available() else "cpu"))
             self.model = ChangeDetectionNet().to(self.device)
 
-            path = Path(checkpoint_path) if checkpoint_path else _DEFAULT_CHECKPOINT
-            self.is_trained = path.exists()
+            # Search candidate checkpoint paths
+            candidates = [
+                Path(checkpoint_path) if checkpoint_path else None,
+                Path(__file__).resolve().parent.parent.parent.parent / "checkpoints" / "changenet_best.pt",
+                Path(__file__).resolve().parent.parent.parent.parent / "checkpoints" / "best.pt",
+                Path(__file__).parent / "checkpoints" / "best.pt",
+                Path.cwd() / "checkpoints" / "changenet_best.pt",
+                Path.cwd() / "checkpoints" / "best.pt",
+            ]
+            valid_path = None
+            for p in candidates:
+                if p is not None and p.exists():
+                    valid_path = p
+                    break
+
+            self.checkpoint_path = str(valid_path) if valid_path else None
+            self.is_trained = valid_path is not None
             if self.is_trained:
-                self.model.load_state_dict(torch.load(path, map_location=self.device))
+                self.model.load_state_dict(torch.load(valid_path, map_location=self.device))
             else:
                 warnings.warn(
-                    f"No checkpoint found at {path} — running an UNTRAINED baseline model. "
+                    f"No checkpoint found — running an UNTRAINED baseline model. "
                     "Output is structurally valid but model is untrained.",
                     stacklevel=2,
                 )
@@ -73,7 +89,15 @@ class ChangeDetector:
                 "probability_map": None,
                 "changed_regions": {"type": "FeatureCollection", "features": []},
                 "model_confidence": 0.50,
-                "is_trained": False,
+                "model_name": "Siamese ChangeNet",
+                "model_version": "v1.0-PyTorch",
+                "weights_available": False,
+                "is_real_weights": False,
+                "fallback_used": True,
+                "execution_mode": "offline_fallback",
+                "device": str(self.device),
+                "quantization": "FP32",
+                "checkpoint_path": self.checkpoint_path or "None",
             }
 
         img_a = self._load(image_before_path).to(self.device)
@@ -93,7 +117,15 @@ class ChangeDetector:
             "probability_map": probs,
             "changed_regions": {"type": "FeatureCollection", "features": self._mask_to_pixel_polygons(mask)},
             "model_confidence": model_confidence,
-            "is_trained": self.is_trained,
+            "model_name": "Siamese ChangeNet",
+            "model_version": "v1.0-PyTorch",
+            "weights_available": self.is_trained,
+            "is_real_weights": self.is_trained,
+            "fallback_used": not self.is_trained,
+            "execution_mode": "real_inference" if self.is_trained else "untrained_baseline",
+            "device": str(self.device),
+            "quantization": "FP32",
+            "checkpoint_path": self.checkpoint_path or "None",
         }
 
     @staticmethod

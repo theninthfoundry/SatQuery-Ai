@@ -17,20 +17,19 @@ router = APIRouter()
 def _resolve_image_context(aoi_id: str, db: Session) -> Dict[str, Any]:
     """
     Minimal, real (not stubbed) context resolution: pull the most recently
-    registered image(s) for this AOI. Once images exist (via POST /images),
-    this correctly feeds detect_change a before/after pair and everything
-    else a single image_id. If none exist yet, the agent's own
-    "insufficient context" path (agent/router.py) handles it — no need to
-    duplicate that check here.
+    registered image(s) for this AOI, filtered to sensor='optical' — this
+    matters now that SAR images can also be registered for the same AOI
+    (sar_corroborate resolves its own SAR pair separately, in tools.py).
+    Without this filter, a registered SAR image could silently get fed
+    into detect_change as if it were optical.
 
-    TODO: object_class (detect_objects) and change_job_id (sar_corroborate)
-    aren't inferable from imagery alone. Parse them from the question text,
-    or accept them as optional QueryRequest fields once the frontend needs
-    to pass them explicitly.
+    TODO: object_class (detect_objects) isn't inferable from imagery
+    alone. Parse it from the question text, or accept it as an optional
+    QueryRequest field once the frontend needs to pass it explicitly.
     """
     images = (
         db.query(Image)
-        .filter(Image.aoi_id == aoi_id)
+        .filter(Image.aoi_id == aoi_id, Image.sensor == "optical")
         .order_by(desc(Image.acquisition_date))
         .all()
     )
@@ -81,9 +80,22 @@ def _phrase_answer(tool_name: str, result: dict) -> str:
     if tool_name == "detect_objects":
         return f"{result.get('count')} objects detected."
     if tool_name == "segment_landcover":
-        return f"Dominant land cover breakdown: {result.get('classes')}."
+        answer = f"Dominant land cover breakdown: {result.get('classes')}."
+        if result.get("is_trained") is False:
+            answer += " Note: the land-cover model is untrained — this breakdown is not yet meaningful."
+        return answer
     if tool_name == "sar_corroborate":
         if result.get("available"):
-            return f"SAR corroboration score: {result.get('corroboration_score')}."
+            answer = (
+                f"SAR corroboration score: {result.get('corroboration_score')} "
+                f"(SAR change: {result.get('sar_change_percent')}%, "
+                f"optical change: {result.get('optical_change_percent')}%)."
+            )
+            if result.get("optical_is_trained") is False:
+                answer += (
+                    " Note: the optical change model is untrained, so this score reflects "
+                    "disagreement with a meaningless optical number, not a real SAR/optical mismatch."
+                )
+            return answer
         return "SAR corroboration unavailable for this AOI."
     return result.get("answer", "I don't have enough information to answer that confidently.")

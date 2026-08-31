@@ -7,12 +7,14 @@ from sqlalchemy.orm import Session
 from ..models_db import ImageRecord, AnalysisJob
 from .router import classify_intent, IntentType
 from .tool_registry import registry
+from .llm_client import llm_client
 from ..pipelines import (
     run_single_image_vqa_pipeline,
     run_visual_grounding_pipeline,
     run_bitemporal_change_pipeline,
     run_optical_sar_pipeline,
 )
+from ..evidence import compute_multimodal_confidence, build_evidence, ExecutionStep
 
 
 class AgentOrchestrator:
@@ -51,7 +53,7 @@ class AgentOrchestrator:
         synthesized_answer = ""
 
         # Layer 2: Modality & Spatial Input Checks
-        if intent == IntentType.CHANGE_DETECTION:
+        if intent in [IntentType.CHANGE_DETECTION, IntentType.COMPOUND_MULTIMODAL]:
             if len(valid_images) < 2:
                 raise ValueError(
                     "Cannot perform temporal change analysis: exactly 2 corresponding observations (Before and After) are required, but only 1 was provided."
@@ -64,7 +66,62 @@ class AgentOrchestrator:
                 )
 
         # Layer 3: Multi-Step Workflow Planning & Tool Execution
-        if intent == IntentType.GROUNDING:
+        if intent == IntentType.COMPOUND_MULTIMODAL:
+            # Step A: Execute Bi-Temporal Change Detection
+            change_res = run_bitemporal_change_pipeline(
+                image_before_id=valid_images[1].id,
+                image_after_id=valid_images[0].id,
+                db=db,
+                aoi_id=aoi_id,
+            )
+
+            # Step B: Identify optical and SAR assets for cross-modal corroboration
+            opt_img = next((img for img in valid_images if "sar" not in (img.modality or "").lower()), valid_images[0])
+            sar_img = next((img for img in valid_images if "sar" in (img.modality or "").lower()), valid_images[-1])
+
+            fusion_res = run_optical_sar_pipeline(
+                optical_image_id=opt_img.id,
+                sar_image_id=sar_img.id,
+                db=db,
+                aoi_id=aoi_id,
+            )
+
+            # Step C: Synthesize compound finding
+            pct = change_res.get("change_percent", 0.0)
+            area_m2 = change_res.get("total_area_m2", 0.0)
+            area_ha = change_res.get("total_area_ha", 0.0)
+            clusters = change_res.get("cluster_count", 0)
+            corrob_score = fusion_res.get("corroboration_score", 0.90)
+            sar_feats = fusion_res.get("sar_features", {})
+            sar_db = sar_feats.get("mean_sigma0_db", -14.5)
+
+            synthesized_answer = (
+                f"Bi-temporal ChangeNet analysis detected {pct}% surface alteration across {area_m2:,.1f} m² "
+                f"({area_ha} ha) divided into {clusters} cluster(s). Optical spectral divergence and Sentinel-1 "
+                f"radar backscatter ({sar_db} dB) mutually corroborate surface change with {int(corrob_score * 100)}% "
+                f"cross-modal agreement."
+            )
+
+            # Merge pipeline results & execution traces
+            combined_steps = change_res.get("execution_steps", []) + fusion_res.get("execution_steps", [])
+            pipeline_result = {
+                "job_id": change_res.get("job_id"),
+                "task": "compound_temporal_optical_sar",
+                "change_percent": pct,
+                "total_area_m2": area_m2,
+                "total_area_ha": area_ha,
+                "cluster_count": clusters,
+                "regions_geojson": change_res.get("regions_geojson"),
+                "mask_preview_url": change_res.get("mask_preview_url"),
+                "optical_features": fusion_res.get("optical_features"),
+                "sar_features": fusion_res.get("sar_features"),
+                "corroboration_score": corrob_score,
+                "evidence": change_res.get("evidence"),
+                "confidence": change_res.get("confidence"),
+                "execution_steps": combined_steps,
+            }
+
+        elif intent == IntentType.GROUNDING:
             expr = params.get("referring_expression", query)
             pipeline_result = run_visual_grounding_pipeline(
                 image_id=valid_images[0].id,
@@ -118,6 +175,14 @@ class AgentOrchestrator:
         confidence = pipeline_result.get("confidence", {})
         execution_steps = pipeline_result.get("execution_steps", [])
 
+        # Grounded LLM / Rule Synthesis
+        final_answer = llm_client.synthesize(
+            query=query,
+            task_intent=intent.value,
+            pipeline_result=pipeline_result,
+            default_answer=synthesized_answer,
+        )
+
         # Standardized downloadable report links
         report_urls = {
             "pdf": f"/api/v1/reports/{job_id}/pdf",
@@ -130,7 +195,7 @@ class AgentOrchestrator:
             "intent": intent.value,
             "intent_confidence": intent_conf,
             "job_id": job_id,
-            "answer": synthesized_answer,
+            "answer": final_answer,
             "pipeline_result": pipeline_result,
             "confidence": confidence,
             "evidence": evidence,

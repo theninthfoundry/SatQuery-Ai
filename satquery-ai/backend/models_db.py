@@ -17,10 +17,15 @@ class AOI(Base):
 
     id = Column(String, primary_key=True, default=gen_uuid)
     name = Column(String, nullable=False)
-    geometry = Column(JSON, nullable=False)  # GeoJSON Polygon / MultiPolygon
+    description = Column(String, nullable=True)
+    geometry = Column(JSON, nullable=True)  # GeoJSON Polygon / MultiPolygon
+    geometry_geojson = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     images = relationship("ImageRecord", back_populates="aoi", cascade="all, delete-orphan")
+
+
+AOIRecord = AOI
 
 
 class ImageRecord(Base):

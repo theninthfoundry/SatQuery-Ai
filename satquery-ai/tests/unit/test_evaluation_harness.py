@@ -28,6 +28,8 @@ def test_individual_benchmark_metrics():
 def test_full_benchmark_suite_execution():
     suite_res = benchmark_harness.run_all()
     assert "timestamp" in suite_res
-    assert len(suite_res["benchmarks"]) == 4
+    assert len(suite_res["benchmarks"]) == 5
+    assert "calibration_report" in suite_res
     assert "markdown_report" in suite_res
     assert "| **RSVQA-HR / VRSBench** |" in suite_res["markdown_report"]
+    assert "Confidence Probability Calibration (Platt / ECE)" in suite_res["markdown_report"]

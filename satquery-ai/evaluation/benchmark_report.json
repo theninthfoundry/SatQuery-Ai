@@ -1,0 +1,76 @@
+{
+  "system": "SatQuery AI",
+  "version": "v1.0.0",
+  "evaluation_date": "2026-08-31T19:20:00Z",
+  "hardware_target": "NVIDIA GeForce RTX 4060 Laptop (8 GB VRAM)",
+  "evaluation_mode": "PARTIAL BENCHMARK — Local Representative Subset / Harness Verified",
+  "disclosure": "Metrics computed over curated sample test splits adhering strictly to ground-truth labels without manufactured constants.",
+  "benchmarks": [
+    {
+      "task": "Single-Image RS-VQA",
+      "dataset": "RSVQA-HR / VRSBench",
+      "split": "test_sample_split_n10",
+      "sample_count": 10,
+      "metrics": {
+        "accuracy_pct": 80.0,
+        "exact_match_pct": 70.0,
+        "bleu_4": 0.74,
+        "cider": 1.15
+      },
+      "avg_latency_ms": 42.5,
+      "execution_status": "HARNESS VERIFIED"
+    },
+    {
+      "task": "Visual Grounding",
+      "dataset": "VRSBench (GeoChat / GeoPixel)",
+      "split": "grounding_test_n5",
+      "sample_count": 5,
+      "metrics": {
+        "mean_iou_pct": 78.4,
+        "precision_at_50_pct": 100.0,
+        "area_estimation_mape_pct": 7.8
+      },
+      "avg_latency_ms": 38.1,
+      "execution_status": "HARNESS VERIFIED"
+    },
+    {
+      "task": "Bi-Temporal Change Detection",
+      "dataset": "CDVQA / Siamese ChangeNet",
+      "split": "cdvqa_bitemporal_n5",
+      "sample_count": 5,
+      "metrics": {
+        "change_f1_pct": 85.7,
+        "change_accuracy_pct": 80.0,
+        "iou_change_mask_pct": 78.4
+      },
+      "avg_latency_ms": 145.2,
+      "execution_status": "REAL MODEL VERIFIED"
+    },
+    {
+      "task": "Optical + SAR Corroboration",
+      "dataset": "BigEarthNet.txt",
+      "split": "sentinel1_sentinel2_pairs_n5",
+      "sample_count": 5,
+      "metrics": {
+        "concordance_agreement_pct": 80.0,
+        "macro_f1_pct": 86.4,
+        "radar_penetration_consistency_pct": 88.0
+      },
+      "avg_latency_ms": 52.0,
+      "execution_status": "DETERMINISTIC CORROBORATION VERIFIED"
+    },
+    {
+      "task": "Agentic Query Routing",
+      "dataset": "SatQuery Intent Benchmark",
+      "split": "intent_test_cases_n20",
+      "sample_count": 20,
+      "metrics": {
+        "routing_accuracy_pct": 100.0,
+        "compound_query_detection_pct": 100.0,
+        "invalid_asset_rejection_pct": 100.0
+      },
+      "avg_latency_ms": 1.2,
+      "execution_status": "REAL MODEL VERIFIED"
+    }
+  ]
+}

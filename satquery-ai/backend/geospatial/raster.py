@@ -164,3 +164,65 @@ def detect_modality(
         return ModalityDetection(modality="unknown", confidence=0.0, basis=basis)
 
     return ModalityDetection(modality="unknown", confidence=0.0, basis=["Insufficient modality metadata"])
+
+
+def compute_ndvi(red_band: np.ndarray, nir_band: np.ndarray) -> np.ndarray:
+    """Calculate Normalized Difference Vegetation Index (NDVI = (NIR - Red) / (NIR + Red)).
+    
+    Values range from -1.0 to +1.0:
+    - Dense healthy vegetation: > 0.5
+    - Sparse vegetation / shrubs: 0.2 - 0.5
+    - Bare soil: 0.0 - 0.2
+    - Water / Cloud: < 0.0
+    """
+    red = red_band.astype(np.float32)
+    nir = nir_band.astype(np.float32)
+    denominator = nir + red
+    # Guard against division by zero
+    ndvi = np.where(denominator > 1e-6, (nir - red) / denominator, 0.0)
+    return np.clip(ndvi, -1.0, 1.0)
+
+
+def compute_ndwi(green_band: np.ndarray, nir_band: np.ndarray) -> np.ndarray:
+    """Calculate McFeeters Normalized Difference Water Index (NDWI = (Green - NIR) / (Green + NIR)).
+    
+    Values range from -1.0 to +1.0:
+    - Open water bodies / flood inundation: > 0.0
+    - Non-water (soil, vegetation, urban): <= 0.0
+    """
+    green = green_band.astype(np.float32)
+    nir = nir_band.astype(np.float32)
+    denominator = green + nir
+    ndwi = np.where(denominator > 1e-6, (green - nir) / denominator, -1.0)
+    return np.clip(ndwi, -1.0, 1.0)
+
+
+def compute_ndbi(swir_band: np.ndarray, nir_band: np.ndarray) -> np.ndarray:
+    """Calculate Normalized Difference Built-up Index (NDBI = (SWIR - NIR) / (SWIR + NIR)).
+    
+    Values range from -1.0 to +1.0:
+    - Built-up urban surfaces: > 0.0
+    - Vegetation / water: < 0.0
+    """
+    swir = swir_band.astype(np.float32)
+    nir = nir_band.astype(np.float32)
+    denominator = swir + nir
+    ndbi = np.where(denominator > 1e-6, (swir - nir) / denominator, -1.0)
+    return np.clip(ndbi, -1.0, 1.0)
+
+
+def compute_sar_backscatter_sigma0(
+    intensity: np.ndarray,
+    calibration_constant_db: float = 0.0,
+) -> np.ndarray:
+    """Convert raw linear SAR intensity or DN into calibrated backscatter sigma0 (σ⁰ in dB).
+    
+    σ⁰ (dB) = 10 * log10(intensity + 1e-10) + calibration_constant
+    - Calm water / specular reflection: < -22 dB
+    - Smooth soil / airport runways: -18 to -14 dB
+    - Forest / vegetation volume scattering: -12 to -8 dB
+    - Urban double-bounce dihedral scattering: > -5 dB
+    """
+    arr = np.maximum(intensity.astype(np.float32), 1e-8)
+    sigma0_db = 10.0 * np.log10(arr) + calibration_constant_db
+    return np.clip(sigma0_db, -40.0, 15.0)

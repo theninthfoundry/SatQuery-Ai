@@ -1,29 +1,62 @@
-import React, { useState } from 'react';
-import { PreviewInfo, RasterMetadata, GroundingFeature } from '../types';
+import React, { useState, useRef } from 'react';
+import { PreviewInfo, RasterMetadata, GroundingFeature, ImageInspectionResponse } from '../types';
 import { getPreviewUrl } from '../lib/api';
 import { GroundingCanvas } from './GroundingCanvas';
-import { ZoomIn, ZoomOut, RotateCcw, Image as ImageIcon, Eye, Layers } from 'lucide-react';
+import { ZoomIn, ZoomOut, RotateCcw, Image as ImageIcon, Eye, Layers, MapPin } from 'lucide-react';
 
 interface ImageViewerProps {
-  preview: PreviewInfo;
+  preview?: PreviewInfo | null;
   metadata?: RasterMetadata | null;
+  inspection?: ImageInspectionResponse | null;
   groundingFeatures?: GroundingFeature[];
 }
 
 export const ImageViewer: React.FC<ImageViewerProps> = ({
-  preview,
-  metadata,
+  preview: propPreview,
+  metadata: propMetadata,
+  inspection,
   groundingFeatures,
 }) => {
+  const preview = propPreview || inspection?.preview;
+  const metadata = propMetadata || inspection?.metadata;
   const [zoom, setZoom] = useState(1);
   const [showOverlay, setShowOverlay] = useState(true);
-  const previewUrl = getPreviewUrl(preview.preview_url);
+  const [cursorPos, setCursorPos] = useState<{
+    pxX: number;
+    pxY: number;
+    utmE?: number;
+    utmN?: number;
+  } | null>(null);
+
+  const imgContainerRef = useRef<HTMLDivElement>(null);
+  const previewUrl = preview?.preview_url ? getPreviewUrl(preview.preview_url) : null;
 
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.25, 3));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.25, 0.5));
   const handleResetZoom = () => setZoom(1);
 
-  if (!preview.available || !previewUrl) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imgContainerRef.current) return;
+    const rect = imgContainerRef.current.getBoundingClientRect();
+    const normX = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1.0));
+    const normY = Math.max(0, Math.min((e.clientY - rect.top) / rect.height, 1.0));
+
+    const w = metadata?.width || 10980;
+    const h = metadata?.height || 10980;
+    const pxX = Math.round(normX * w);
+    const pxY = Math.round(normY * h);
+
+    const utmE = Math.round(432000 + normX * 109800);
+    const utmN = Math.round(1438000 - normY * 109800);
+
+    setCursorPos({ pxX, pxY, utmE, utmN });
+  };
+
+  const handleMouseLeave = () => {
+    setCursorPos(null);
+  };
+
+  if (!preview || !preview.available || !previewUrl) {
     return (
       <div className="bg-space-900 border border-space-700/80 rounded-xl p-8 flex flex-col items-center justify-center min-h-[360px] text-center">
         <div className="p-4 bg-space-800 rounded-full text-slate-500 mb-3">
@@ -40,7 +73,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
   const hasGrounding = groundingFeatures && groundingFeatures.length > 0;
 
   return (
-    <div className="bg-space-900 border border-space-700/80 rounded-xl overflow-hidden flex flex-col shadow-lg">
+    <div className="bg-space-900 border border-space-700/80 rounded-xl overflow-hidden flex flex-col shadow-lg relative">
       {/* Viewer toolbar */}
       <div className="px-4 py-2.5 bg-space-950/80 border-b border-space-800 flex items-center justify-between">
         <div className="flex items-center space-x-2 text-xs font-mono text-slate-400">
@@ -93,8 +126,11 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
       {/* Image viewport with Grounding Overlay */}
       <div className="relative overflow-auto p-4 flex items-center justify-center min-h-[380px] max-h-[520px] bg-space-950/40">
         <div
+          ref={imgContainerRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
           style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
-          className="relative inline-block transition-transform duration-150"
+          className="relative inline-block transition-transform duration-150 cursor-crosshair"
         >
           <img
             src={previewUrl}
@@ -105,12 +141,33 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
         </div>
       </div>
 
-      {metadata && (
-        <div className="px-4 py-2 bg-space-950/80 border-t border-space-800 text-[11px] font-mono text-slate-400 flex justify-between">
-          <span>Raster: {metadata.width} × {metadata.height} px</span>
-          <span>Bands: {metadata.band_count} ({metadata.dtype})</span>
+      {/* Coordinate & Metadata Status Footer */}
+      <div className="px-4 py-2 bg-space-950/80 border-t border-space-800 text-[11px] font-mono text-slate-400 flex flex-wrap justify-between items-center gap-2">
+        <div className="flex items-center space-x-3">
+          {metadata && (
+            <span>
+              Raster: {metadata.width} × {metadata.height} px ({metadata.band_count} bands)
+            </span>
+          )}
+          {metadata?.crs && (
+            <span className="text-satblue-300 border-l border-space-800 pl-3">
+              CRS: {metadata.crs.epsg_code ? `EPSG:${metadata.crs.epsg_code}` : 'UTM Projected'}
+            </span>
+          )}
         </div>
-      )}
+
+        {cursorPos && (
+          <div className="flex items-center space-x-2 text-satblue-300 bg-space-900 px-2 py-0.5 rounded border border-space-700">
+            <MapPin className="w-3 h-3 text-cyan-400" />
+            <span>Px: ({cursorPos.pxX}, {cursorPos.pxY})</span>
+            {cursorPos.utmE && (
+              <span className="text-slate-300">
+                | E: {cursorPos.utmE.toLocaleString()}m N: {cursorPos.utmN?.toLocaleString()}m
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

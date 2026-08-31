@@ -6,6 +6,13 @@ from .confidence import (
     compute_multimodal_confidence,
     calculate_spatial_resolution_score,
 )
+from .calibration import (
+    platt_scale,
+    fit_platt_scaling,
+    compute_calibration_metrics,
+    CalibrationReport,
+    ReliabilityBin,
+)
 from .provenance import ExecutionStep, ProvenanceGraph
 from .builder import build_evidence, EvidenceObject
 from .contract import (
@@ -19,6 +26,11 @@ __all__ = [
     "compute_vqa_confidence",
     "compute_multimodal_confidence",
     "calculate_spatial_resolution_score",
+    "platt_scale",
+    "fit_platt_scaling",
+    "compute_calibration_metrics",
+    "CalibrationReport",
+    "ReliabilityBin",
     "ExecutionStep",
     "ProvenanceGraph",
     "build_evidence",

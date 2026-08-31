@@ -10,7 +10,7 @@ from backend.config import settings
 from backend.db import get_db, Base, engine
 from backend.models_db import ImageRecord, AOIRecord
 from backend.geospatial.metadata import extract_raster_metadata
-from backend.storage.preview import generate_preview
+from backend.storage.preview import generate_raster_preview as generate_preview
 from tests.fixtures.synthetic_raster import create_synthetic_multiband_geotiff
 from tests.fixtures.synthetic_bitemporal import create_synthetic_bitemporal_pair
 from tests.fixtures.synthetic_optical_sar import create_synthetic_optical_sar_pair
@@ -24,6 +24,7 @@ def seed_demo_scenarios():
 
     demo_dir = Path("./data/demo")
     demo_dir.mkdir(parents=True, exist_ok=True)
+    Path(settings.preview_dir).mkdir(parents=True, exist_ok=True)
 
     # 1. Create Default AOI
     aoi = db.get(AOIRecord, "aoi_demo_isro")
@@ -172,8 +173,37 @@ def seed_demo_scenarios():
     db.merge(img_sar)
     print("✅ Seeded Scenario 3: Co-registered Optical + SAR Pair (img_demo_sentinel2_optical & sentinel1_sar)")
 
+    # 5. Scenario 4: Flood & Reservoir Water Dynamics (Mission 0248 / 0250)
+    flood_path = demo_dir / "scene_brahmaputra_flood.tif"
+    create_synthetic_multiband_geotiff(flood_path, width=128, height=128, bands=4, epsg=32643)
+    meta_flood = extract_raster_metadata(flood_path)
+    prev_flood = Path(settings.preview_dir) / "demo_flood_prev.png"
+    generate_preview(flood_path, prev_flood)
+
+    img_flood = db.get(ImageRecord, "img_demo_brahmaputra_flood") or ImageRecord(
+        id="img_demo_brahmaputra_flood",
+        aoi_id="aoi_demo_isro",
+        filename="scene_brahmaputra_flood.tif",
+        path=str(flood_path),
+        preview_path=f"/api/v1/images/img_demo_brahmaputra_flood/preview",
+        format="GTiff",
+        width=128,
+        height=128,
+        band_count=4,
+        dtype="uint8",
+        crs=meta_flood.crs.name,
+        epsg=meta_flood.crs.epsg,
+        bounds=meta_flood.bounds.wgs84.__dict__ if meta_flood.bounds and meta_flood.bounds.wgs84 else None,
+        resolution=meta_flood.resolution.__dict__ if meta_flood.resolution else None,
+        modality="multispectral",
+        metadata_json=meta_flood.to_dict(),
+        is_valid=True,
+    )
+    db.merge(img_flood)
+    print("✅ Seeded Scenario 4: Multi-Spectral Flood Dynamics (img_demo_brahmaputra_flood)")
+
     db.commit()
-    print("\n🚀 All 3 ISRO Demonstration Scenarios Successfully Seeded!")
+    print("\n🚀 All 4 ISRO Demonstration Scenarios Successfully Seeded!")
 
 
 if __name__ == "__main__":

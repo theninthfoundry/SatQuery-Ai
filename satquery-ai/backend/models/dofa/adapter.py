@@ -27,7 +27,7 @@ except ImportError:  # pragma: no cover
 
 
 class DOFAAdapter:
-    """Specialist ModelAdapter for DOFA Multimodal EO Foundation Model and Cross-Modal Fusion."""
+    """Specialist ModelAdapter for DOFA Multimodal EO Foundation Model and Cross-Modal Corroboration."""
 
     name: str = "dofa_foundation"
     task: str = "multimodal_eo_representation"
@@ -35,7 +35,7 @@ class DOFAAdapter:
         "optical_feature_extraction",
         "sar_feature_extraction",
         "cross_modal_corroboration",
-        "multimodal_fusion",
+        "deterministic_spectral_analysis",
     ]
     vram_estimate_mb: int = 1200  # ~1.2 GB in FP16
 
@@ -189,7 +189,15 @@ class DOFAAdapter:
             "joint_claim": " ".join(joint_findings),
             "optical_features": opt_feats,
             "sar_features": sar_feats,
-            "model": "DOFA Foundation Specialist",
+            "model_name": "DOFA Foundation Specialist",
+            "model_version": "v1.0-ViT-Base",
+            "weights_available": self.is_checkpoint_available(),
+            "is_real_weights": self.is_checkpoint_available(),
+            "fallback_used": not self.is_checkpoint_available(),
+            "execution_mode": "deterministic_corroboration",
+            "device": self._device,
+            "quantization": "FP16",
+            "checkpoint_path": str(self.config.checkpoint_dir),
         }
 
 

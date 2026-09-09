@@ -124,7 +124,7 @@ export const ChatAssistantDrawer: React.FC<ChatAssistantDrawerProps> = ({ isOpen
             lat: ws.agentResult?.location?.lat ?? targetLoc?.lat ?? 17.385,
             lon: ws.agentResult?.location?.lon ?? targetLoc?.lon ?? 78.4867,
             utmZone: ws.agentResult?.location?.crs_name || targetLoc?.utmZone,
-            epsg: ws.agentResult?.location?.epsg,
+            epsg: ws.agentResult?.location?.epsg ? Number(ws.agentResult.location.epsg) : undefined,
           },
           areaHa: ws.agentResult?.pipeline_result?.total_area_ha ?? haNum,
           areaM2: ws.agentResult?.pipeline_result?.total_area_m2 ?? m2Num,

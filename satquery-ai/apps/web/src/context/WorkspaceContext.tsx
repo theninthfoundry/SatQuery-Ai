@@ -1410,6 +1410,7 @@ export const WorkspaceProvider: React.FC<{ children: ReactNode }> = ({ children 
         const activeSourceImageId =
           images.find((img) => img.id.includes('flood') || img.id.includes('water'))?.id ||
           (images.length > 0 ? images[0].id : (currentMission.id === 'mission_02_grounding' ? 'img_demo_brahmaputra_flood' : 'img_demo_bitemporal_t2'));
+        const canonicalTargetIds = [activeSourceImageId];
 
         const res = await executeAgentQuery(q, canonicalTargetIds, undefined, {
           lat: currentMission.lat,

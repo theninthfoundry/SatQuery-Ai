@@ -112,7 +112,7 @@ def run_visual_grounding_pipeline(
     t1 = time.perf_counter()
     grounding_result = geochat_adapter.ground(image_path, referring_expression)
     boxes = grounding_result.get("boxes", [])
-    raw_confidence = grounding_result.get("model_confidence", 0.87)
+    raw_confidence = grounding_result.get("model_confidence")
 
     steps.append(
         ExecutionStep(

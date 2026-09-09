@@ -1,6 +1,6 @@
 # SatQuery AI — Authoritative System Status & SIH26167 Compliance Matrix
 # Generated programmatically by scripts/generate_system_status.py
-# Updated: 2026-09-08T23:00:00Z
+# Updated: 2026-09-09T07:59:33Z
 
 system:
   name: "SatQuery AI"
@@ -16,20 +16,16 @@ models:
     status: "NOT_INSTALLED"
     truth_state: "CLASSICAL_FALLBACK"
     checkpoint_verified: false
-    description: "VLM weights offline on host; classical spectral fallback active with zero hallucinated boxes"
 
   changenet_v1:
     status: "CLASSICAL_FALLBACK"
     truth_state: "UNTRAINED_MODEL"
     checkpoint_verified: false
-    training_status: "PROTOTYPE_ONLY"
-    description: "Siamese ResNet-18 architecture runnable; spectral index differential fallback active"
 
   dofa_foundation:
     status: "CLASSICAL_FALLBACK"
     truth_state: "LEVEL_2_PHYSICAL_SPATIAL_CORROBORATION"
     corroboration_level: "LEVEL_2_PHYSICAL_SPATIAL_CORROBORATION"
-    description: "Physical spatial intersection of optical and SAR backscatter masks (not learned neural fusion)"
 
 deterministic_engines:
   water_body_analyzer:

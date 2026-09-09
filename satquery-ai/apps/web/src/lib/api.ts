@@ -69,6 +69,9 @@ export async function submitAgentQuery(
     lon?: number;
     location_name?: string;
     utm_zone?: string;
+    expected_source_image_id?: string;
+    source_image_id?: string;
+    [key: string]: any;
   }
 ): Promise<AgentQueryResponse> {
   const res = await fetch(`${API_BASE}/api/v1/query`, {
@@ -82,6 +85,8 @@ export async function submitAgentQuery(
       lon: context?.lon,
       location_name: context?.location_name,
       utm_zone: context?.utm_zone,
+      expected_source_image_id: context?.expected_source_image_id,
+      source_image_id: context?.source_image_id,
     }),
   });
 

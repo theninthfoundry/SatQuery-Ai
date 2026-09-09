@@ -173,6 +173,7 @@ export interface Finding {
   query: string;
   title: string;
   category: string;
+  algorithm?: string;
   observation: FindingObservation;
   model: FindingModel;
   spatial: FindingSpatial;
@@ -296,8 +297,13 @@ export interface AgentQueryResponse {
   intent: string;
   task?: string;
   intent_confidence: number;
+  confidence_score?: number;
+  source_image_id?: string;
   job_id: string;
   answer: string;
+  status?: string;
+  error_code?: string;
+  reason?: string;
   location?: AgentQueryLocation;
   pipeline_result: any;
   confidence: ConfidenceScore;

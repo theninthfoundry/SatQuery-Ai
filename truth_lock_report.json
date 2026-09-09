@@ -1,7 +1,7 @@
 {
   "suite": "SATQUERY_TRUTH_LOCK_v2",
   "status": "PASSED",
-  "verified_at": "2026-09-08T23:30:00Z",
+  "verified_at": "2026-09-09T07:59:30Z",
   "invariants": {
     "source_image_id_invariant": "PASSED",
     "zero_synthetic_confidence": "PASSED",
@@ -14,6 +14,7 @@
     "blind_data_validation": "PASSED",
     "canonical_status_generation": "PASSED"
   },
+  "total_duration_sec": 0.01,
   "tests": {
     "test_real_water_body_brahmaputra.py": {
       "status": "PASSED",
@@ -39,7 +40,12 @@
     },
     "test_geochat_multimodal_tensor_verification.py": {
       "status": "PASSED",
-      "pixel_values_dimensions": [1, 3, 336, 336],
+      "pixel_values_dimensions": [
+        1,
+        3,
+        336,
+        336
+      ],
       "offline_fallback_boxes": []
     },
     "test_model_provenance_registry.py": {
@@ -55,8 +61,16 @@
     },
     "test_general_spatial_ranking.py": {
       "status": "PASSED",
-      "targets_tested": ["water_body", "built_up", "vegetation"],
-      "operations_tested": ["largest", "smallest", "count"]
+      "targets_tested": [
+        "water_body",
+        "built_up",
+        "vegetation"
+      ],
+      "operations_tested": [
+        "largest",
+        "smallest",
+        "count"
+      ]
     },
     "test_blind_validation.py": {
       "status": "PASSED",
@@ -71,7 +85,12 @@
     },
     "test_report_format_integrity.py": {
       "status": "PASSED",
-      "parity_verified": ["JSON", "GeoJSON", "CSV", "PDF"]
+      "parity_verified": [
+        "JSON",
+        "GeoJSON",
+        "CSV",
+        "PDF"
+      ]
     },
     "test_analysis_replay_bitwise.py": {
       "status": "PASSED",

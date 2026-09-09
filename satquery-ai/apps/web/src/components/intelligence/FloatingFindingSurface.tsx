@@ -201,7 +201,7 @@ export const FloatingFindingSurface: React.FC<FloatingFindingSurfaceProps> = ({
         <button
           onClick={() => {
             if (ws.clusters && ws.clusters.length > 0) {
-              ws.setSelectedClusterId(ws.clusters[0].id);
+              ws.selectCluster(ws.clusters[0].id);
             }
           }}
           className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors"

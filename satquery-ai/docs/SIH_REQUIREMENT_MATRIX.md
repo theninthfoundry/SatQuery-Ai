@@ -3,8 +3,8 @@
 
 **Problem Statement:** SIH26167 · Indian Space Research Organisation (ISRO) · Space Technology Theme  
 **Official Title:** *SatQuery AI — Interactive Vision-Language Assistant for Multimodal Remote Sensing Image Analysis*  
-**Audited At:** 2026-09-08T23:30:00Z  
-**Verification Standard:** Rigorous 4-Tier Proof: `CODE LOGIC & DAG` → `DETERMINISTIC GIS FOUNDATION` → `NEURAL WEIGHTS STATE` → `LIVE TRUTH STATUS`
+**Audited At:** 2026-09-09T07:59:33Z  
+**Verification Standard:** Rigorous 3-Tier Proof: `CODE LOGIC & DAG` → `DETERMINISTIC GIS FOUNDATION` → `NEURAL WEIGHTS STATE` → `LIVE TRUTH STATUS`
 
 ---
 

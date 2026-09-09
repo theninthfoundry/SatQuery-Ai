@@ -232,14 +232,39 @@ export async function uploadAOIFile(file: File, name?: string): Promise<any> {
   formData.append('file', file);
   if (name) formData.append('name', name);
 
-  const res = await fetch(`${API_BASE}/api/v1/aoi/upload`, {
+  const url = `${API_BASE}/api/v1/aoi/upload`;
+
+  const res = await fetch(url, {
     method: 'POST',
     body: formData,
   });
+
+  const contentType = res.headers.get('content-type') || '';
+
   if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`AOI upload failed: ${errText}`);
+    const body = contentType.includes('application/json')
+      ? await res.json().catch(() => null)
+      : await res.text();
+
+    const message =
+      typeof body === 'string'
+        ? body
+        : body?.detail?.message ||
+          body?.detail ||
+          body?.message ||
+          `HTTP ${res.status}`;
+
+    throw new Error(`AOI upload failed (${res.status}): ${message}`);
   }
+
+  if (!contentType.includes('application/json')) {
+    const body = await res.text();
+    throw new Error(
+      `AOI endpoint returned ${contentType || 'unknown content type'} instead of JSON. ` +
+      `URL: ${url}. Response starts with: ${body.slice(0, 200)}`
+    );
+  }
+
   return await res.json();
 }
 

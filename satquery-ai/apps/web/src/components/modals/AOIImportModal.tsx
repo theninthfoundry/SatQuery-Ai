@@ -98,7 +98,7 @@ export const AOIImportModal: React.FC<AOIImportModalProps> = ({ isOpen, onClose 
               <div className="flex items-center justify-between">
                 <div className="font-bold text-sm text-white">{importedAOI.name}</div>
                 <span className="text-[9px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80">
-                  VERIFIED GEOMETRY
+                  VALIDATED GEOMETRY
                 </span>
               </div>
 

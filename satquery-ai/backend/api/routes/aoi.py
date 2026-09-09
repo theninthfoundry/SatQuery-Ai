@@ -21,12 +21,14 @@ class AOICreateSchema(BaseModel):
 
 
 def _serialize_aoi(aoi: AOI) -> Dict[str, Any]:
+    area_m2 = round(aoi.area_ha * 10000.0, 2) if aoi.area_ha is not None else None
     return {
         "id": aoi.id,
         "name": aoi.name,
         "description": aoi.description,
         "geometry": aoi.geometry,
         "area_ha": aoi.area_ha,
+        "area_m2": area_m2,
         "perimeter_m": aoi.perimeter_m,
         "bbox": aoi.bbox,
         "crs": aoi.crs or "EPSG:4326",

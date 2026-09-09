@@ -29,7 +29,7 @@ if HAS_PYDANTIC_SETTINGS:
         app_env: str = Field(default="development", validation_alias="APP_ENV")
         debug: bool = Field(default=True, validation_alias="DEBUG")
         api_host: str = Field(default="0.0.0.0", validation_alias="API_HOST")
-        api_port: int = Field(default=8000, validation_alias="API_PORT")
+        api_port: int = Field(default=8001, validation_alias="API_PORT")
 
         # Database
         database_url: str = Field(
@@ -78,7 +78,7 @@ else:
             self.app_env: str = os.getenv("APP_ENV", "development")
             self.debug: bool = os.getenv("DEBUG", "true").lower() in ("true", "1")
             self.api_host: str = os.getenv("API_HOST", "0.0.0.0")
-            self.api_port: int = int(os.getenv("API_PORT", "8000"))
+            self.api_port: int = int(os.getenv("API_PORT", "8001"))
             self.database_url: str = os.getenv("DATABASE_URL", "sqlite:///./satquery.db")
             self.data_dir: Path = Path(os.getenv("DATA_DIR", "./data"))
             self.max_upload_size_mb: int = int(os.getenv("MAX_UPLOAD_SIZE_MB", "512"))

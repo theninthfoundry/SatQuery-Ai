@@ -1,0 +1,26 @@
+# Core web/API
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+pydantic==2.6.1
+python-multipart==0.0.9
+
+# Geospatial (deterministic engine)
+rasterio==1.3.9
+pyproj==3.6.1
+shapely==2.0.3
+opencv-python-headless==4.9.0.80
+numpy==1.26.4
+Pillow==10.2.0
+
+# ML / GeoChat 4-bit
+torch>=2.1.0            # install with CUDA wheel separately, see README_INTEGRATION.md
+transformers==4.38.2
+accelerate==0.27.2
+bitsandbytes==0.42.0
+
+# Reporting
+reportlab==4.1.0
+
+# Testing
+pytest==8.0.2
+httpx==0.27.0

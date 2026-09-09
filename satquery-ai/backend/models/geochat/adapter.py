@@ -13,6 +13,7 @@ except ImportError:
 
 try:
     import torch
+    import numpy as np
     HAS_TORCH = True
 except ImportError:  # pragma: no cover
     HAS_TORCH = False
@@ -342,4 +343,4 @@ class GeoChatAdapter:
 
 # Auto-register geochat adapter
 geochat_adapter = GeoChatAdapter()
-model_registry.register("geochat_7b", geochat_adapter)
+model_registry.register("geochat", geochat_adapter)

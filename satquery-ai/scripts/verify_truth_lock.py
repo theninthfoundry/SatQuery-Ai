@@ -78,15 +78,17 @@ def run_truth_lock_verification():
                 all_passed = False
             print(f"  → {'PASSED' if passed else 'FAILED'} ({dur}s)")
     else:
-        print("\n[AUDIT HARNESS] Verifying certified benchmark test suite & invariant chain...")
+        print("\n[AUDIT HARNESS] pytest unavailable — all tests report NOT_VERIFIED (fail-closed).")
+        all_passed = False
         for tf in test_files:
             tf_key = Path(tf).name
-            prev = results.get(tf_key) or results.get(tf) or {"status": "PASSED", "duration_sec": 0.05}
-            results[tf_key] = prev
-            passed = (prev.get("status") == "PASSED")
-            if not passed:
-                all_passed = False
-            print(f"  → {tf_key}: {'PASSED' if passed else 'FAILED'} (certified)")
+            # Check for cached historical result, but label it HISTORICAL, never current PASS
+            prev = results.get(tf_key) or results.get(tf)
+            if prev and prev.get("status") == "PASSED":
+                results[tf_key] = {"status": "NOT_VERIFIED", "historical_status": "PASSED", "reason": "pytest unavailable — cannot re-execute"}
+            else:
+                results[tf_key] = {"status": "NOT_VERIFIED", "reason": "pytest unavailable — cannot execute"}
+            print(f"  → {tf_key}: NOT_VERIFIED (pytest unavailable)")
 
     # Fake data sweep check
     print("\n[RUNNING] Codebase Fake-Data & Fallback Sweep ...")
@@ -114,18 +116,24 @@ def run_truth_lock_verification():
     total_duration = round(time.perf_counter() - t_start, 2)
     overall_status = "PASSED" if all_passed else "FAILED"
 
-    invariants = cached_report.get("invariants", {
-        "source_image_id_invariant": "PASSED",
-        "zero_synthetic_confidence": "PASSED",
-        "zero_hardcoded_boxes": "PASSED",
-        "zero_unverified_model_claims": "PASSED",
-        "cross_format_report_parity": "PASSED",
-        "bitwise_replay_auditing": "PASSED",
-        "honest_water_abstention": "PASSED",
-        "scoring_terminology_decoupling": "PASSED",
-        "blind_data_validation": "PASSED",
-        "canonical_status_generation": "PASSED",
-    })
+    # Invariants must be computed, not defaulted — fail-closed
+    default_invariants = {
+        "source_image_id_invariant": "NOT_VERIFIED",
+        "zero_synthetic_confidence": "NOT_VERIFIED",
+        "zero_hardcoded_boxes": "NOT_VERIFIED",
+        "zero_unverified_model_claims": "NOT_VERIFIED",
+        "cross_format_report_parity": "NOT_VERIFIED",
+        "bitwise_replay_auditing": "NOT_VERIFIED",
+        "honest_water_abstention": "NOT_VERIFIED",
+        "scoring_terminology_decoupling": "NOT_VERIFIED",
+        "blind_data_validation": "NOT_VERIFIED",
+        "canonical_status_generation": "NOT_VERIFIED",
+    }
+    if pytest is not None:
+        # Invariants are only valid if tests actually ran
+        invariants = cached_report.get("invariants", default_invariants)
+    else:
+        invariants = default_invariants
 
     report = {
         "suite": "SATQUERY_TRUTH_LOCK_v2",

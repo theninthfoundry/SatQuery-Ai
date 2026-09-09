@@ -16,6 +16,39 @@ class EntityType(str, Enum):
     ARTIFACT = "ARTIFACT"
 
 
+class RuntimeStatus(str, Enum):
+    """Allowed runtime states for models. These reflect actual runtime checks."""
+    NOT_INSTALLED = "NOT_INSTALLED"
+    CHECKPOINT_FOUND = "CHECKPOINT_FOUND"
+    CHECKPOINT_VERIFIED = "CHECKPOINT_VERIFIED"
+    READY_CPU = "READY_CPU"
+    READY_CUDA = "READY_CUDA"
+    UNTRAINED = "UNTRAINED"
+    FALLBACK_ONLY = "FALLBACK_ONLY"
+    ERROR = "ERROR"
+    UNAVAILABLE = "UNAVAILABLE"
+
+
+class TruthState(str, Enum):
+    """Allowed truth states distinguishing the source of evaluation claims."""
+    UPSTREAM_REPORTED = "UPSTREAM_REPORTED"
+    SATQUERY_TRAINED = "SATQUERY_TRAINED"
+    SATQUERY_MEASURED = "SATQUERY_MEASURED"
+    LOCAL_REPRODUCED = "LOCAL_REPRODUCED"
+    UNTRAINED_MODEL = "UNTRAINED_MODEL"
+    CLASSICAL_ENGINE = "CLASSICAL_ENGINE"
+    FALLBACK = "FALLBACK"
+    UNKNOWN = "UNKNOWN"
+
+
+class EvaluationSource(str, Enum):
+    """Distinguishes where benchmark/evaluation numbers originate."""
+    UPSTREAM_REPORTED = "UPSTREAM_REPORTED"
+    SATQUERY_MEASURED = "SATQUERY_MEASURED"
+    SYNTHETIC_REGRESSION = "SYNTHETIC_REGRESSION"
+    NOT_EVALUATED = "NOT_EVALUATED"
+
+
 @runtime_checkable
 class ModelAdapter(Protocol):
     """Standardized interface for all perception and VLM model adapters."""
@@ -45,19 +78,24 @@ class ModelAdapter(Protocol):
 @dataclass
 class ModelMetadata:
     """Rigorous model provenance taxonomy for statistical neural models."""
-    name: str
-    task: str
-    architecture: str
-    pretrained_source: str
-    task_finetuned: bool
-    training_dataset: str
-    validation_dataset: str
+    id: str = ""
+    name: str = ""
+    task: str = ""
+    architecture: str = ""
+    pretrained_source: str = ""
+    task_finetuned: bool = False
+    training_dataset: str = ""
+    validation_dataset: str = ""
     entity_type: str = EntityType.MODEL.value
     checkpoint: Optional[str] = None
     checkpoint_sha256: Optional[str] = None
     training_commit: Optional[str] = None
     evaluation_metrics: Dict[str, Any] = field(default_factory=dict)
-    runtime_status: str = "registered"  # "OFFLINE_FALLBACK", "READY_CPU", "READY_CUDA"
+    evaluation_source: str = EvaluationSource.NOT_EVALUATED.value
+    runtime_status: str = RuntimeStatus.NOT_INSTALLED.value
+    truth_state: str = TruthState.UNKNOWN.value
+    fallback_available: bool = False
+    fallback_type: Optional[str] = None
     vram_estimate_mb: int = 0
     description: str = ""
     capabilities: List[str] = field(default_factory=list)
@@ -66,6 +104,7 @@ class ModelMetadata:
     def to_dict(self) -> Dict[str, Any]:
         return {
             "entity_type": self.entity_type,
+            "id": self.id,
             "name": self.name,
             "task": self.task,
             "architecture": self.architecture,
@@ -77,7 +116,11 @@ class ModelMetadata:
             "checkpoint_sha256": self.checkpoint_sha256,
             "training_commit": self.training_commit,
             "evaluation_metrics": self.evaluation_metrics,
+            "evaluation_source": self.evaluation_source,
             "runtime_status": self.runtime_status,
+            "truth_state": self.truth_state,
+            "fallback_available": self.fallback_available,
+            "fallback_type": self.fallback_type,
             "vram_estimate_mb": self.vram_estimate_mb,
             "description": self.description,
             "capabilities": self.capabilities,
@@ -185,6 +228,7 @@ class ModelRegistry:
         self.register_provenance(
             "geochat",
             ModelMetadata(
+                id="geochat",
                 name="GeoChat-7B",
                 task="vqa_and_grounding",
                 architecture="LLaVA-1.5 RS Fine-tuned (Vicuna-7B + CLIP-ViT-L/14)",
@@ -196,7 +240,11 @@ class ModelRegistry:
                 checkpoint_sha256=None,
                 training_commit="upstream-mbzuai-release",
                 evaluation_metrics={"rsvqa_accuracy": 0.785, "yes_no_acc": 0.862},
-                runtime_status="OFFLINE_FALLBACK",
+                evaluation_source=EvaluationSource.UPSTREAM_REPORTED.value,
+                runtime_status=RuntimeStatus.NOT_INSTALLED.value,
+                truth_state=TruthState.UPSTREAM_REPORTED.value,
+                fallback_available=True,
+                fallback_type="OFFLINE_HEURISTIC_VQA",
                 vram_estimate_mb=4500,
                 description="Remote sensing vision-language model for single-image VQA and semantic visual grounding",
                 capabilities=["vqa", "grounding", "scene_description"],
@@ -207,6 +255,7 @@ class ModelRegistry:
         self.register_provenance(
             "changenet",
             ModelMetadata(
+                id="changenet",
                 name="Siamese ChangeNet",
                 task="bitemporal_change_detection",
                 architecture="Siamese ResNet18 + Feature Pyramid Difference Head",
@@ -218,7 +267,11 @@ class ModelRegistry:
                 checkpoint_sha256=None,
                 training_commit="prototype-synthetic-v1",
                 evaluation_metrics={"status": "unverified_checkpoint"},
-                runtime_status="CLASSICAL_FALLBACK",
+                evaluation_source=EvaluationSource.NOT_EVALUATED.value,
+                runtime_status=RuntimeStatus.UNTRAINED.value,
+                truth_state=TruthState.UNTRAINED_MODEL.value,
+                fallback_available=True,
+                fallback_type="CLASSICAL_SPECTRAL_DIFFERENCE",
                 vram_estimate_mb=2500,
                 description="Bi-temporal change detection with spectral differential fallback (ΔNDBI / ΔNDVI / ΔNDWI)",
                 capabilities=["bitemporal_change", "contour_extraction", "altered_area_ha"],
@@ -240,6 +293,7 @@ class ModelRegistry:
         self.register_provenance(
             "dofa",
             ModelMetadata(
+                id="dofa",
                 name="DOFA-Foundation",
                 task="cross_modal_representation",
                 architecture="Wavelength-Conditioned ViT-Base",
@@ -251,7 +305,11 @@ class ModelRegistry:
                 checkpoint_sha256=None,
                 training_commit="upstream-dofa-v1",
                 evaluation_metrics={"map": 0.865, "macro_f1": 0.812},
-                runtime_status="CLASSICAL_FALLBACK",
+                evaluation_source=EvaluationSource.UPSTREAM_REPORTED.value,
+                runtime_status=RuntimeStatus.NOT_INSTALLED.value,
+                truth_state=TruthState.UPSTREAM_REPORTED.value,
+                fallback_available=True,
+                fallback_type="DETERMINISTIC_CROSS_MODAL_CORROBORATION",
                 vram_estimate_mb=2500,
                 description="Dynamic Optical-SAR Foundation model for multi-sensor cross-modal concordance",
                 capabilities=["optical_feature_extraction", "sar_feature_extraction"],

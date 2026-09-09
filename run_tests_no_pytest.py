@@ -28,18 +28,35 @@ class _RaisesContext:
         return True
 
 
+class _Approx:
+    def __init__(self, expected, rel=1e-6):
+        self.expected = expected
+        self.rel = rel
+
+    def __eq__(self, other):
+        return abs(other - self.expected) <= self.rel * max(abs(self.expected), 1e-12)
+
+
 fake_pytest = types.ModuleType("pytest")
 fake_pytest.raises = _RaisesContext
+fake_pytest.approx = _Approx
 fake_pytest.main = lambda *a, **k: 0
 sys.modules["pytest"] = fake_pytest
 
 import importlib
-test_mod = importlib.import_module("tests.test_truthlock")
-
-test_fns = [
-    (name, fn) for name, fn in vars(test_mod).items()
-    if name.startswith("test_") and callable(fn)
+test_modules = [
+    importlib.import_module("tests.test_truthlock"),
+    importlib.import_module("tests.test_water_detector"),
+    importlib.import_module("tests.test_e2e_golden_benchmark"),
 ]
+
+test_fns = []
+for mod in test_modules:
+    test_fns.extend(
+        (f"{mod.__name__}.{name}", fn)
+        for name, fn in vars(mod).items()
+        if name.startswith("test_") and callable(fn)
+    )
 
 passed, failed = 0, 0
 for name, fn in test_fns:

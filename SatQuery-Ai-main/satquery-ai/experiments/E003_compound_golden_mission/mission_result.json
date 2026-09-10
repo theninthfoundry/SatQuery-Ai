@@ -1,0 +1,320 @@
+{
+  "mission_id": "msn_golden_1788885021",
+  "query": "Has built-up area increased, where, by how much, and does SAR corroborate it?",
+  "answer": "Bi-temporal ChangeNet analysis confirms that built-up urban area increased by 18.46% across 1,398,770.2 m\u00b2 (139.877 ha / 1.3988 km\u00b2) divided into 1 cluster(s). Spectral index analysis (\u0394NDBI: +0.39, \u0394NDVI: -0.40) indicates new urban builtup. Sentinel-1 SAR microwave backscatter shows low spatial consensus (0.0%, IoU: 0.00) with optical findings, indicating potential surface discordance.",
+  "change_percent": 18.46,
+  "total_area_m2": 1398770.24,
+  "total_area_ha": 139.877,
+  "total_area_km2": 1.3988,
+  "cluster_count": 1,
+  "sar_corroboration": {
+    "spatial_iou": 0.0,
+    "agreement_ratio": 0.0,
+    "status": "UNCORROBORATED"
+  },
+  "spatial_evidence": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "id": "change_region_1",
+        "properties": {
+          "cluster_id": 1,
+          "area_m2": 1398770.24,
+          "area_ha": 139.877,
+          "pixel_count": 11881
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                78.487,
+                17.373
+              ],
+              [
+                78.487,
+                17.3621
+              ],
+              [
+                78.4979,
+                17.3621
+              ],
+              [
+                78.4979,
+                17.373
+              ],
+              [
+                78.487,
+                17.373
+              ]
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "evidence_graph": {
+    "graph_id": "evg_msn_golden_1788885021",
+    "node_count": 7,
+    "edge_count": 7,
+    "nodes": {
+      "obs_t1": {
+        "id": "obs_t1",
+        "type": "asset_observation",
+        "source": "golden_t1_optical.png",
+        "description": "T1 Optical Observation",
+        "confidence": 0.95,
+        "data": {},
+        "geometry": null,
+        "depends_on": []
+      },
+      "obs_t2": {
+        "id": "obs_t2",
+        "type": "asset_observation",
+        "source": "golden_t2_optical.png",
+        "description": "T2 Optical Observation",
+        "confidence": 0.95,
+        "data": {},
+        "geometry": null,
+        "depends_on": []
+      },
+      "obs_sar": {
+        "id": "obs_sar",
+        "type": "asset_observation",
+        "source": "golden_t2_sar.png",
+        "description": "T2 SAR Microwave Observation",
+        "confidence": 0.95,
+        "data": {},
+        "geometry": null,
+        "depends_on": []
+      },
+      "det_change": {
+        "id": "det_change",
+        "type": "model_detection",
+        "source": "ChangeNet",
+        "description": "18.46% change mask",
+        "confidence": 0.88,
+        "data": {},
+        "geometry": null,
+        "depends_on": [
+          "obs_t1",
+          "obs_t2"
+        ]
+      },
+      "meas_sem": {
+        "id": "meas_sem",
+        "type": "spectral_measurement",
+        "source": "\u0394NDBI Engine",
+        "description": "Urban built-up spectral delta",
+        "confidence": 0.9,
+        "data": {},
+        "geometry": null,
+        "depends_on": [
+          "det_change"
+        ]
+      },
+      "corrob_sar": {
+        "id": "corrob_sar",
+        "type": "spatial_relation",
+        "source": "SpatialFusionEngine",
+        "description": "SAR Consensus (0%)",
+        "confidence": 0.64,
+        "data": {},
+        "geometry": null,
+        "depends_on": [
+          "obs_sar",
+          "det_change"
+        ]
+      },
+      "final_claim": {
+        "id": "final_claim",
+        "type": "synthesized_claim",
+        "source": "AgentSynthesizer",
+        "description": "Urban expansion confirmed and corroborated",
+        "confidence": 0.89,
+        "data": {},
+        "geometry": null,
+        "depends_on": [
+          "meas_sem",
+          "corrob_sar"
+        ]
+      }
+    },
+    "edges": [
+      {
+        "from": "obs_t1",
+        "to": "det_change"
+      },
+      {
+        "from": "obs_t2",
+        "to": "det_change"
+      },
+      {
+        "from": "det_change",
+        "to": "meas_sem"
+      },
+      {
+        "from": "obs_sar",
+        "to": "corrob_sar"
+      },
+      {
+        "from": "det_change",
+        "to": "corrob_sar"
+      },
+      {
+        "from": "meas_sem",
+        "to": "final_claim"
+      },
+      {
+        "from": "corrob_sar",
+        "to": "final_claim"
+      }
+    ]
+  },
+  "evidence_gate": {
+    "decision": "qualify",
+    "confidence": 0.792,
+    "reasons": [
+      "Evidence is present but subject to environmental or sensor caveats."
+    ],
+    "caveats": [
+      "Co-registration accuracy is moderate (0.60). Perimeter boundary changes should be interpreted with caution."
+    ],
+    "recommended_action": null
+  },
+  "timeline": [
+    {
+      "step_number": 1,
+      "tool": "input_sanitizer",
+      "description": "Verified file integrity, MIME magic bytes, and absence of decompression traps for 3 assets.",
+      "status": "completed",
+      "duration_ms": 21,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 2,
+      "tool": "asset_factory",
+      "description": "Extracted EO descriptors: T1 (optical), T2 (optical), SAR (optical).",
+      "status": "completed",
+      "duration_ms": 8,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 3,
+      "tool": "compatibility_engine",
+      "description": "Evaluated spatial compatibility: Overlap IoU = 90.0%, Resolution Ratio = 1.0.",
+      "status": "completed",
+      "duration_ms": 0,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 4,
+      "tool": "temporal_validator",
+      "description": "Verified chronological baseline: T1 -> T2 observation interval is 365.0 days.",
+      "status": "completed",
+      "duration_ms": 0,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 5,
+      "tool": "akaze_coregistration",
+      "description": "Co-registered T1-T2 pair using orb (Quality: 60%, Inliers: 0).",
+      "status": "completed",
+      "duration_ms": 391,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 6,
+      "tool": "siamese_changenet",
+      "description": "Generated 2D change probability tensor with Siamese ChangeNet (18.46% surface change detected).",
+      "status": "completed",
+      "duration_ms": 270,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 7,
+      "tool": "semantic_change_classifier",
+      "description": "Classified land transitions from computed spectral deltas: Dominant driver = New Urban Builtup.",
+      "status": "completed",
+      "duration_ms": 6,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 8,
+      "tool": "affine_polygonization",
+      "description": "Converted neural mask to 1 GeoJSON polygon(s). Measured Extent: 1,398,770.2 m\u00b2 (139.877 ha / 1.3988 km\u00b2).",
+      "status": "completed",
+      "duration_ms": 4,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 9,
+      "tool": "sar_processor",
+      "description": "Radiometrically calibrated Sentinel-1 SAR DN to \u03c3\u2070 (dB) and executed 5x5 Lee speckle noise filter on authentic microwave pixels.",
+      "status": "completed",
+      "duration_ms": 12,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 10,
+      "tool": "spatial_fusion_corroboration",
+      "description": "Level 2 Spatial Corroboration: Mutual Agreement IoU = 0.00, Spatial Consensus = 0.0%.",
+      "status": "completed",
+      "duration_ms": 1,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 11,
+      "tool": "sensor_disagreement_diagnostics",
+      "description": "Sensor Discordance Diagnosis: Optical sensors detected water bodies that SAR classified as non-water. This is typically ...",
+      "status": "completed",
+      "duration_ms": 1,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 12,
+      "tool": "evidence_graph_builder",
+      "description": "Assembled DAG with 7 evidence nodes and 7 causal provenance edges.",
+      "status": "completed",
+      "duration_ms": 0,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 13,
+      "tool": "evidence_gate",
+      "description": "Epistemological Gate Decision: QUALIFY (Confidence: 79%).",
+      "status": "completed",
+      "duration_ms": 0,
+      "model": null,
+      "output_summary": null
+    },
+    {
+      "step_number": 14,
+      "tool": "mission_synthesizer",
+      "description": "Synthesized multi-sensor finding strictly grounded in measured geometry and SAR corroboration.",
+      "status": "completed",
+      "duration_ms": 0,
+      "model": null,
+      "output_summary": null
+    }
+  ],
+  "report_urls": {
+    "pdf": "/api/v1/reports/msn_golden_1788885021/pdf",
+    "geojson": "/api/v1/reports/msn_golden_1788885021/geojson",
+    "csv": "/api/v1/reports/msn_golden_1788885021/csv"
+  },
+  "total_duration_ms": 756
+}

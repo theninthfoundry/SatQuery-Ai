@@ -1,0 +1,47 @@
+# SatQuery AI — Official Specialist Models & Checkpoint Specifications
+
+models:
+  geochat_7b:
+    name: "GeoChat-7B"
+    architecture: "LLaVA-1.5 Remote-Sensing Fine-tuned (Vicuna-7B + CLIP-ViT-L/14-336)"
+    target_tasks: ["vqa", "visual_grounding", "scene_description"]
+    base_hf_id: "MBZUAI/geochat-7b"
+    checkpoint_dir: "./checkpoints/geochat"
+    quantization: "4-bit BitsAndBytes NF4 (FP16 compute)"
+    vram_budget_mb: 4500
+    expected_inputs:
+      image: "RGB 336x336 patch"
+      text: "Text prompt with <image> token"
+    fallback_policy: "offline_classical_spectral_vqa"
+
+  changenet_v1:
+    name: "Siamese ChangeNet"
+    architecture: "Siamese ResNet18 Encoder + Feature Pyramid Difference Concatenation Head"
+    target_tasks: ["bi_temporal_change_detection", "surface_expansion"]
+    checkpoint_path: "./checkpoints/changenet_best.pt"
+    vram_budget_mb: 2500
+    expected_inputs:
+      t1: "3-channel Optical Image [B, 3, H, W]"
+      t2: "3-channel Optical Image [B, 3, H, W]"
+    training_loss: "Combined BCEWithLogitsLoss + SoftDiceLoss (weight: 0.5/0.5)"
+    target_f1_score: 0.885
+    fallback_policy: "differential_ndbi_ndwi_otsu_mask"
+
+  dofa_vit_base:
+    name: "DOFA Multimodal Foundation"
+    architecture: "Wavelength-Conditioned Vision Transformer (ViT-Base/16)"
+    target_tasks: ["multimodal_representation", "optical_sar_cross_modal"]
+    checkpoint_dir: "./checkpoints/dofa"
+    vram_budget_mb: 1200
+    expected_inputs:
+      wavelengths: "Dynamic list of central wavelengths in nm (e.g. [490, 560, 665, 842, 5405])"
+      tensors: "Multispectral + C-band SAR radar tensor"
+    fallback_policy: "deterministic_spatial_corroboration_level_2"
+
+  water_body_analyzer:
+    name: "Deterministic Water Body Analyzer"
+    architecture: "MNDWI/NDWI Radiometric Pipeline + Morphological Opening/Closing + WGS84 Geodesic Polygonization"
+    target_tasks: ["water_detection", "spatial_ranking_largest", "geodesic_area_measurement"]
+    requires_ml_checkpoint: false
+    vram_budget_mb: 0
+    guaranteed_accuracy: "Exact geodetic polygon contouring without bounding box distortion"

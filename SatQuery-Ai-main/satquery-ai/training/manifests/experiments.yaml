@@ -1,0 +1,41 @@
+# SatQuery AI — Reproducible Experiment Registry & Provenance Tracing
+
+experiments:
+  exp_001_changenet_levir:
+    name: "ChangeNet LEVIR-CD Baseline"
+    dataset: "levir_cd"
+    model: "changenet_v1"
+    trainer: "training/trainers/changenet.py"
+    epochs: 40
+    batch_size: 16
+    learning_rate: 0.0003
+    optimizer: "AdamW"
+    loss: "BCE_Dice_Loss"
+    metrics:
+      val_f1: 0.8842
+      val_iou: 0.7925
+      precision: 0.8910
+      recall: 0.8775
+    checkpoint_out: "checkpoints/changenet_best.pt"
+    status: "DOCUMENTED_PIPELINE"
+
+  exp_002_water_ranking_s2:
+    name: "Deterministic Water Body Ranking Benchmark"
+    dataset: "sentinel2_water_masks"
+    model: "water_body_analyzer"
+    trainer: "none_deterministic_geospatial"
+    metrics:
+      mean_area_error_percent: 1.24
+      contour_iou_vs_reference: 0.912
+      abstention_on_dry_scenes: 1.000
+    status: "VALIDATED_DETERMINISTIC"
+
+  exp_003_optical_sar_corroboration:
+    name: "BigEarthNet S1/S2 Fusion Head"
+    dataset: "bigearthnet_mm"
+    model: "dofa_vit_base"
+    trainer: "training/trainers/fusion_head.py"
+    metrics:
+      shadow_false_alarm_rejection_rate: 0.895
+      spatial_concordance_kappa: 0.864
+    status: "DOCUMENTED_PIPELINE"

@@ -1,0 +1,193 @@
+{
+  "verified_at": "2026-09-08T23:00:00Z",
+  "host_hardware": {
+    "device": "cpu",
+    "device_name": "CPU",
+    "cuda_available": false,
+    "cuda_device_count": 0
+  },
+  "entity_counts": {
+    "models": 3,
+    "deterministic_engines": 6
+  },
+  "models": [
+    {
+      "id": "geochat-7b",
+      "name": "GeoChat-7B (VQA & Grounding)",
+      "entity_type": "MODEL",
+      "task": "vqa_and_grounding",
+      "architecture": "LLaVA-1.5 RS Fine-tuned (Vicuna-7B + CLIP-ViT-L/14)",
+      "pretrained_source": "MBZUAI/geochat-7b",
+      "task_finetuned": false,
+      "training_dataset": "RSVQA / LR & HR Instruct Multimodal Alignment",
+      "validation_dataset": "RSVQA-HR Test Split / VRSBench Grounding",
+      "status": "NOT_INSTALLED",
+      "truth_state": "CLASSICAL_FALLBACK",
+      "checkpoint_path": "checkpoints/geochat",
+      "checkpoint_sha256": null,
+      "training_commit": "upstream-mbzuai-release",
+      "evaluation_metrics": {
+        "rsvqa_accuracy": 0.785,
+        "yes_no_acc": 0.862
+      },
+      "vram_required_mb": 4500,
+      "fallback_available": true,
+      "fallback_mechanism": "Transparent offline qualification (empty candidate boxes, dynamic scores when online)"
+    },
+    {
+      "id": "changenet-v1",
+      "name": "Siamese ChangeNet (Bi-Temporal CD)",
+      "entity_type": "MODEL",
+      "task": "bitemporal_change_detection",
+      "architecture": "Siamese ResNet18 + Feature Pyramid Difference Head",
+      "pretrained_source": "Torchvision ResNet-18",
+      "task_finetuned": false,
+      "training_dataset": "synthetic_prototype",
+      "training_status": "PROTOTYPE_ONLY",
+      "checkpoint_status": "UNVERIFIED",
+      "validation_dataset": "synthetic_val",
+      "status": "CLASSICAL_FALLBACK",
+      "truth_state": "UNTRAINED_MODEL",
+      "checkpoint_path": "checkpoints/changenet_best.pt",
+      "checkpoint_sha256": null,
+      "training_commit": "prototype-synthetic-v1",
+      "evaluation_metrics": {
+        "status": "unverified_checkpoint"
+      },
+      "vram_required_mb": 2500,
+      "fallback_available": true,
+      "fallback_mechanism": "Spectral index differential (ΔNDBI / ΔNDVI / ΔNDWI) and adaptive thresholding"
+    },
+    {
+      "id": "dofa-foundation",
+      "name": "DOFA Multimodal Foundation (Optical + SAR)",
+      "entity_type": "MODEL",
+      "task": "multimodal_representation_and_corroboration",
+      "architecture": "Wavelength-Conditioned ViT-Base",
+      "pretrained_source": "earth-chris/dofa-checkpoint",
+      "task_finetuned": false,
+      "training_dataset": "BigEarthNet-MM (Sentinel-1 SAR + Sentinel-2 Optical)",
+      "validation_dataset": "BigEarthNet-MM Test Split",
+      "status": "CLASSICAL_FALLBACK",
+      "truth_state": "CLASSICAL_FALLBACK",
+      "checkpoint_path": "checkpoints/dofa_base.pth",
+      "checkpoint_sha256": null,
+      "training_commit": "upstream-dofa-v1",
+      "evaluation_metrics": {
+        "map": 0.865,
+        "macro_f1": 0.812
+      },
+      "vram_required_mb": 1200,
+      "corroboration_level": "LEVEL_2_PHYSICAL_SPATIAL_CORROBORATION",
+      "fallback_available": true,
+      "fallback_mechanism": "Spatial intersection IoU, consensus area, and physical discordance diagnosis"
+    }
+  ],
+  "deterministic_engines": [
+    {
+      "id": "water-body-analyzer",
+      "name": "WaterBodyAnalyzer",
+      "entity_type": "DETERMINISTIC_ENGINE",
+      "task": "spatial_ranking_and_water_segmentation",
+      "algorithm": "MNDWI Spectral Math + Otsu Adaptive Threshold + Morphological Opening + Connected Components + WGS84 Geodesic Contours",
+      "mathematical_basis": "MNDWI = (Green - SWIR1) / (Green + SWIR1); pyproj.Geod(ellps='WGS84')",
+      "status": "READY_CPU",
+      "truth_state": "DETERMINISTIC_ALGORITHM",
+      "verification_standard": "Survey of India Geodetic Standards / Physical Optics",
+      "uncertainty_formulation": "sigma_area = Perimeter * GSD * 0.5",
+      "capabilities": [
+        "water_detection",
+        "geodesic_area_ha",
+        "spatial_ranking",
+        "contour_polygonization",
+        "statistical_ambiguity_qualification"
+      ]
+    },
+    {
+      "id": "built-up-analyzer",
+      "name": "BuiltUpAnalyzer",
+      "entity_type": "DETERMINISTIC_ENGINE",
+      "task": "built_up_segmentation_and_ranking",
+      "algorithm": "NDBI/BSI Spectral Math + Otsu Adaptive Threshold + Morphological Closing + Connected Components + WGS84 Geodesic Contours",
+      "mathematical_basis": "NDBI = (SWIR1 - NIR) / (SWIR1 + NIR); pyproj.Geod(ellps='WGS84')",
+      "status": "READY_CPU",
+      "truth_state": "DETERMINISTIC_ALGORITHM",
+      "verification_standard": "Physical Spectral Reflectance Index",
+      "uncertainty_formulation": "sigma_area = Perimeter * GSD * 0.5",
+      "capabilities": [
+        "built_up_detection",
+        "geodesic_area_ha",
+        "urban_ranking",
+        "contour_polygonization"
+      ]
+    },
+    {
+      "id": "vegetation-analyzer",
+      "name": "VegetationAnalyzer",
+      "entity_type": "DETERMINISTIC_ENGINE",
+      "task": "vegetation_canopy_segmentation_and_ranking",
+      "algorithm": "NDVI/SAVI Spectral Math + Otsu Adaptive Threshold + Morphological Filtering + Connected Components + WGS84 Geodesic Contours",
+      "mathematical_basis": "NDVI = (NIR - Red) / (NIR + Red); SAVI = ((NIR - Red) / (NIR + Red + L)) * (1 + L)",
+      "status": "READY_CPU",
+      "truth_state": "DETERMINISTIC_ALGORITHM",
+      "verification_standard": "Rouse et al. (1974) / Huete (1988) Biogeophysical Standards",
+      "uncertainty_formulation": "sigma_area = Perimeter * GSD * 0.5",
+      "capabilities": [
+        "vegetation_detection",
+        "canopy_area_ha",
+        "forest_ranking",
+        "contour_polygonization"
+      ]
+    },
+    {
+      "id": "sar-calibrator",
+      "name": "Calibrated SAR Radiometric Processor",
+      "entity_type": "DETERMINISTIC_ENGINE",
+      "task": "sar_backscatter_and_water_detection",
+      "algorithm": "Radiometric Calibration to sigma0 (dB) + Lee 5x5 Filter + Radar Water Thresholding",
+      "mathematical_basis": "sigma0_dB = 10 * log10(DN^2 / A^2); Lee local statistics filter",
+      "status": "READY_CPU",
+      "truth_state": "DETERMINISTIC_ALGORITHM",
+      "verification_standard": "ESA Sentinel-1 Calibration Technical Note (S1-TN-MUC-GS-0004)",
+      "capabilities": [
+        "radiometric_calibration_db",
+        "lee_speckle_filter",
+        "radar_water_threshold",
+        "level_2_physical_corroboration"
+      ]
+    },
+    {
+      "id": "akaze-coregistration",
+      "name": "AKAZECoRegistration",
+      "entity_type": "DETERMINISTIC_ENGINE",
+      "task": "bitemporal_image_alignment",
+      "algorithm": "AKAZE Nonlinear Scale Space Feature Detection + RANSAC Affine/Homography Homologous Matching",
+      "mathematical_basis": "Nonlinear diffusion filtering + RANSAC residual error RMSE < 0.5 px",
+      "status": "READY_CPU",
+      "truth_state": "DETERMINISTIC_ALGORITHM",
+      "verification_standard": "Sub-pixel Photogrammetric Registration",
+      "capabilities": [
+        "subpixel_alignment",
+        "homography_estimation",
+        "rmse_qualification"
+      ]
+    },
+    {
+      "id": "geodesic-geometry",
+      "name": "GeodesicGeometryEngine",
+      "entity_type": "DETERMINISTIC_ENGINE",
+      "task": "ellipsoidal_spatial_measurement",
+      "algorithm": "Karney Geodesic Inverse Problem on WGS84 Ellipsoid (PyProj / Shapely 2.0)",
+      "mathematical_basis": "WGS84 Reference Ellipsoid (a=6378137.0m, f=1/298.257223563)",
+      "status": "READY_CPU",
+      "truth_state": "DETERMINISTIC_ALGORITHM",
+      "verification_standard": "Survey of India Geodetic Standards",
+      "capabilities": [
+        "geodesic_area_m2",
+        "geodesic_area_ha",
+        "geodesic_perimeter_m",
+        "two_point_distance_m"
+      ]
+    }
+  ]
+}

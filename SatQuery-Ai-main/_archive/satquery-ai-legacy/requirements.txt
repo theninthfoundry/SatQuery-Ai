@@ -1,0 +1,19 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+sqlalchemy>=2.0
+pydantic>=2.0
+python-dotenv>=1.0
+
+# Added for the real detect_change model (models/change/):
+torch>=2.2
+numpy>=1.26
+pillow>=10.0
+opencv-python-headless>=4.9
+
+# Not yet included — add for Phase 1 (PRD Section 9) once you're past
+# the pure-skeleton stage. GDAL needs a matching system-level libgdal,
+# so pin/install it separately rather than via a plain pip install:
+#   rasterio
+#   geopandas
+#   shapely
+#   gdal

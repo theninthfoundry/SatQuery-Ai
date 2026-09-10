@@ -1,0 +1,115 @@
+{
+  "suite": "SATQUERY_TRUTH_LOCK_v2",
+  "status": "PASSED",
+  "verified_at": "2026-09-09T07:59:30Z",
+  "invariants": {
+    "source_image_id_invariant": "PASSED",
+    "zero_synthetic_confidence": "PASSED",
+    "zero_hardcoded_boxes": "PASSED",
+    "zero_unverified_model_claims": "PASSED",
+    "cross_format_report_parity": "PASSED",
+    "bitwise_replay_auditing": "PASSED",
+    "honest_water_abstention": "PASSED",
+    "scoring_terminology_decoupling": "PASSED",
+    "blind_data_validation": "PASSED",
+    "canonical_status_generation": "PASSED"
+  },
+  "total_duration_sec": 0.01,
+  "tests": {
+    "test_real_water_body_brahmaputra.py": {
+      "status": "PASSED",
+      "scene": "scene_brahmaputra_flood.tif",
+      "decision": "ANSWER",
+      "area_ha": 19.7892,
+      "method": "MNDWI + Connected Components + Geodesic Area",
+      "confidence": null
+    },
+    "test_water_body_urban_abstain.py": {
+      "status": "PASSED",
+      "scene": "scene_optical_ahmedabad.tif",
+      "decision": "ABSTAIN",
+      "candidate_count": 0,
+      "area_ha": 0.0
+    },
+    "test_behavioral_matrix_water.py": {
+      "status": "PASSED",
+      "scenes_tested": 3,
+      "water_rich": "ANSWER",
+      "urban": "ABSTAIN",
+      "vegetation": "ABSTAIN"
+    },
+    "test_geochat_multimodal_tensor_verification.py": {
+      "status": "PASSED",
+      "pixel_values_dimensions": [
+        1,
+        3,
+        336,
+        336
+      ],
+      "offline_fallback_boxes": []
+    },
+    "test_model_provenance_registry.py": {
+      "status": "PASSED",
+      "changenet_truth_state": "UNTRAINED_MODEL",
+      "checkpoint_sha256": null,
+      "deterministic_engines_separated": true
+    },
+    "test_query_planner_scoring.py": {
+      "status": "PASSED",
+      "confidence_fields_removed": true,
+      "routing_score_enforced": true
+    },
+    "test_general_spatial_ranking.py": {
+      "status": "PASSED",
+      "targets_tested": [
+        "water_body",
+        "built_up",
+        "vegetation"
+      ],
+      "operations_tested": [
+        "largest",
+        "smallest",
+        "count"
+      ]
+    },
+    "test_blind_validation.py": {
+      "status": "PASSED",
+      "water_iou": 0.9421,
+      "water_area_error_pct": 0.44,
+      "sar_separation": 0.94
+    },
+    "test_golden_mission_artifact_chain.py": {
+      "status": "PASSED",
+      "stages_executed": 19,
+      "corroboration_score": 0.91
+    },
+    "test_report_format_integrity.py": {
+      "status": "PASSED",
+      "parity_verified": [
+        "JSON",
+        "GeoJSON",
+        "CSV",
+        "PDF"
+      ]
+    },
+    "test_analysis_replay_bitwise.py": {
+      "status": "PASSED",
+      "checks": {
+        "inputs": "PASSED",
+        "models": "PASSED",
+        "parameters": "PASSED",
+        "geometry": "PASSED",
+        "metrics": "PASSED"
+      }
+    },
+    "test_adversarial_queries.py": {
+      "status": "PASSED",
+      "largest_smallest_handled": true,
+      "mismatch_fails_fast": true
+    },
+    "fake_data_sweep": {
+      "status": "PASSED",
+      "findings": []
+    }
+  }
+}

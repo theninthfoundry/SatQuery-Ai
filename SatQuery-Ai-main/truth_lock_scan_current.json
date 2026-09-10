@@ -1,0 +1,3005 @@
+[
+  {
+    "path": "satquery-ai/backend/evaluation/harness.py",
+    "line_no": 212,
+    "line": "benchmark_name=\"CDVQA / Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/evaluation/harness.py",
+    "line_no": 559,
+    "line": "model=\"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/assets/descriptor.py",
+    "line_no": 611,
+    "line": "r\"(\\d{4})-(\\d{2})-(\\d{2})\",  # 2024-03-15",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/single_image.py",
+    "line_no": 10,
+    "line": "from ..models.geochat import geochat_adapter",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/single_image.py",
+    "line_no": 68,
+    "line": "model=\"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/optical_sar.py",
+    "line_no": 10,
+    "line": "from ..models.dofa import dofa_adapter",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/optical_sar.py",
+    "line_no": 191,
+    "line": "else f\"Computed deterministic physical cross-modal corroboration (Optical spectral reflectance & SAR radar backscatter; DOFA weights offline)\"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/optical_sar.py",
+    "line_no": 195,
+    "line": "model=\"DOFA-ViT-Base\" if is_real_weights else None,",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/optical_sar.py",
+    "line_no": 196,
+    "line": "output_summary=f\"Corroboration: {int(corroboration_score * 100)}% ({'Learned DOFA Fusion' if is_real_weights else 'Level 2 Physical Corroboration'})\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/optical_sar.py",
+    "line_no": 256,
+    "line": "\"model\": \"DOFA-ViT-Base\" if is_real_weights else None,",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/optical_sar.py",
+    "line_no": 278,
+    "line": "\"model\": \"DOFA-ViT-Base\" if is_real_weights else None,",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/bi_temporal.py",
+    "line_no": 259,
+    "line": "model=\"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 407,
+    "line": "n_t1 = EvidenceNode(id=\"obs_t1\", node_type=EvidenceNodeType.ASSET_OBSERVATION, source=r_t1.filename, description=\"T1 Optical Observation\", confidence=0.95)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 408,
+    "line": "n_t2 = EvidenceNode(id=\"obs_t2\", node_type=EvidenceNodeType.ASSET_OBSERVATION, source=r_t2.filename, description=\"T2 Optical Observation\", confidence=0.95)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 409,
+    "line": "n_sar = EvidenceNode(id=\"obs_sar\", node_type=EvidenceNodeType.ASSET_OBSERVATION, source=r_sar.filename, description=\"T2 SAR Microwave Observation\", confidence=0.95)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 410,
+    "line": "n_ch = EvidenceNode(id=\"det_change\", node_type=EvidenceNodeType.MODEL_DETECTION, source=\"ChangeNet\", description=f\"{change_percent}% change mask\", confidence=0.88, depends_on=[\"obs_t1\", \"obs_t2\"])",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 411,
+    "line": "n_sem = EvidenceNode(id=\"meas_sem\", node_type=EvidenceNodeType.SPECTRAL_MEASUREMENT, source=\"\u0394NDBI Engine\", description=\"Urban built-up spectral delta\", confidence=0.90, depends_on=[\"det_change\"])",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 413,
+    "line": "n_claim = EvidenceNode(id=\"final_claim\", node_type=EvidenceNodeType.SYNTHESIZED_CLAIM, source=\"AgentSynthesizer\", description=\"Urban expansion confirmed and corroborated\", confidence=0.89, depends_on=[\"meas_sem\", \"corrob_sar\"])",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 220,
+    "line": "description=f\"Generated 2D change probability tensor with Siamese ChangeNet ({change_percent}% surface change detected).\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 410,
+    "line": "n_ch = EvidenceNode(id=\"det_change\", node_type=EvidenceNodeType.MODEL_DETECTION, source=\"ChangeNet\", description=f\"{change_percent}% change mask\", confidence=0.88, depends_on=[\"obs_t1\", \"obs_t2\"])",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 468,
+    "line": "f\"Bi-temporal ChangeNet analysis confirms that built-up urban area increased by {change_percent}% \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 496,
+    "line": "model=\"Siamese ChangeNet + SpatialFusionEngine + SARProcessor\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 650,
+    "line": "description=f\"Computed 2D change probability tensor with Siamese ChangeNet (Threshold: {threshold}). Detected {change_percent}% surface alteration.\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 653,
+    "line": "model=\"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/golden_mission.py",
+    "line_no": 716,
+    "line": "model=\"Siamese ChangeNet + Affine Geometry Engine\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/grounding.py",
+    "line_no": 10,
+    "line": "from ..models.geochat import geochat_adapter",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/pipelines/grounding.py",
+    "line_no": 124,
+    "line": "model=\"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/llm_client.py",
+    "line_no": 18,
+    "line": "- All numbers, area measurements (m\u00b2 and ha), bounding coordinates, and confidence percentages are computed by deterministic geospatial tools (GDAL, Shapely, PyProj, ChangeNet).",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 14,
+    "line": "from ..models.geochat import geochat_adapter",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 16,
+    "line": "from ..models.dofa import dofa_adapter",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 36,
+    "line": "description=\"Execute single-image remote sensing visual question answering using GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 52,
+    "line": "\"model\": \"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 75,
+    "line": "\"model\": \"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 82,
+    "line": "description=\"Run Siamese ChangeNet on a before/after image pair to generate 2D change probability maps\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/agent/tools.py",
+    "line_no": 102,
+    "line": "\"model\": \"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/engines/disagreement.py",
+    "line_no": 141,
+    "line": "\"causing diffuse radar backscatter above the -16 dB threshold.\"",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/backend/mission/executor.py",
+    "line_no": 171,
+    "line": "elif \"ChangeNet\" in node.name:",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/mission/executor.py",
+    "line_no": 227,
+    "line": "f\"Multi-temporal ChangeNet analysis identified {pct}% surface transformation \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/mission/executor.py",
+    "line_no": 269,
+    "line": "f\"Multi-temporal ChangeNet analysis detected {ch.get('change_percent', 0.0)}% surface alteration \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/mission/executor.py",
+    "line_no": 276,
+    "line": "f\"Multi-temporal ChangeNet analysis detected {ch.get('change_percent', 0.0)}% surface alteration \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/mission/planner.py",
+    "line_no": 220,
+    "line": "name=\"Bi-temporal ChangeNet Feature Discrimination\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 218,
+    "line": "\"geochat\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 220,
+    "line": "name=\"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 229,
+    "line": "\"geochat\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 231,
+    "line": "id=\"geochat\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 232,
+    "line": "name=\"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 235,
+    "line": "pretrained_source=\"MBZUAI/geochat-7b\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 239,
+    "line": "checkpoint=\"checkpoints/geochat\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 256,
+    "line": "\"changenet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 258,
+    "line": "id=\"changenet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 259,
+    "line": "name=\"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 283,
+    "line": "\"dofa\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 285,
+    "line": "name=\"DOFA-Foundation\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 294,
+    "line": "\"dofa\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 296,
+    "line": "id=\"dofa\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 297,
+    "line": "name=\"DOFA-Foundation\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 300,
+    "line": "pretrained_source=\"earth-chris/dofa-checkpoint\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/registry.py",
+    "line_no": 306,
+    "line": "training_commit=\"upstream-dofa-v1\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/geospatial/raster.py",
+    "line_no": 125,
+    "line": "return ModalityDetection(modality=\"sar\", confidence=0.95, basis=basis)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/geospatial/raster.py",
+    "line_no": 129,
+    "line": "return ModalityDetection(modality=\"multispectral\", confidence=0.95, basis=basis)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/geospatial/raster.py",
+    "line_no": 134,
+    "line": "return ModalityDetection(modality=\"sar\", confidence=0.85, basis=basis)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/geospatial/raster.py",
+    "line_no": 139,
+    "line": "return ModalityDetection(modality=\"multispectral\", confidence=0.85, basis=basis)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/geospatial/raster.py",
+    "line_no": 142,
+    "line": "return ModalityDetection(modality=\"optical\", confidence=0.85, basis=basis)",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/ingestion/stac_client.py",
+    "line_no": 62,
+    "line": "start_date: str = \"2024-01-01\",",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/backend/ingestion/stac_client.py",
+    "line_no": 63,
+    "line": "end_date: str = \"2026-12-31\",",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/backend/evidence/gate.py",
+    "line_no": 97,
+    "line": "confidence=0.30,",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/backend/api/routes/evaluation.py",
+    "line_no": 22,
+    "line": "\"name\": \"RS Visual Grounding (GeoChat / GeoPixel)\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/api/routes/evaluation.py",
+    "line_no": 28,
+    "line": "\"name\": \"CDVQA / Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/api/routes/stac.py",
+    "line_no": 15,
+    "line": "start_date: str = Field(default=\"2024-01-01\")",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/backend/api/routes/stac.py",
+    "line_no": 16,
+    "line": "end_date: str = Field(default=\"2026-12-31\")",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/backend/models/dofa/config.py",
+    "line_no": 18,
+    "line": "model_name: str = \"DOFA-ViT-Base\"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/dofa/config.py",
+    "line_no": 19,
+    "line": "checkpoint_dir: Path = Path(\"./checkpoints/dofa\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/dofa/adapter.py",
+    "line_no": 63,
+    "line": "f\"DOFA weights not found at {self.config.checkpoint_dir}. \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/dofa/adapter.py",
+    "line_no": 220,
+    "line": "\"model_name\": \"DOFA Foundation Specialist / Spatial Fusion\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/config.py",
+    "line_no": 7,
+    "line": "\"You are GeoChat, an expert vision-language model specialized in Earth observation \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/config.py",
+    "line_no": 19,
+    "line": "model_id: str = \"MBZUAI/geochat-7b\"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/config.py",
+    "line_no": 20,
+    "line": "checkpoint_dir: Path = Path(\"./checkpoints/geochat\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 91,
+    "line": "f\"GeoChat checkpoint not found at {self.config.checkpoint_dir}. \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 123,
+    "line": "raise RuntimeError(f\"Failed to load GeoChat-7B: {str(e)}\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 206,
+    "line": "\"model_name\": \"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 218,
+    "line": "raise RuntimeError(f\"GeoChat forward pass failed: {str(e)}\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 222,
+    "line": "f\"Real mode active but GeoChat-7B weights not found at {self.config.checkpoint_dir}. \"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 230,
+    "line": "\"GeoChat-7B checkpoint unavailable; classical spectral analysis active.\"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 233,
+    "line": "\"model_name\": \"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 307,
+    "line": "\"model_name\": \"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 319,
+    "line": "raise RuntimeError(f\"GeoChat grounding forward pass failed: {str(e)}\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 323,
+    "line": "f\"Real mode active but GeoChat-7B weights not found at {self.config.checkpoint_dir}.\"",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 329,
+    "line": "\"raw_output\": \"[Offline Fallback] GeoChat-7B checkpoint unavailable. No synthetic boxes generated.\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 331,
+    "line": "\"model_name\": \"GeoChat-7B\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/geochat/adapter.py",
+    "line_no": 346,
+    "line": "model_registry.register(\"geochat\", geochat_adapter)",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/change/train_levir.py",
+    "line_no": 131,
+    "line": "parser = argparse.ArgumentParser(description=\"LEVIR-CD Siamese ChangeNet Trainer\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/change/train_levir.py",
+    "line_no": 140,
+    "line": "raise RuntimeError(\"PyTorch is required for ChangeNet training.\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/change/train_levir.py",
+    "line_no": 143,
+    "line": "print(f\"\ud83d\ude80 Training LEVIR-CD ChangeNet on: {device}\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/change/infer.py",
+    "line_no": 92,
+    "line": "\"model_name\": \"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/change/infer.py",
+    "line_no": 120,
+    "line": "\"model_name\": \"Siamese ChangeNet\",",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/backend/models/change/train.py",
+    "line_no": 21,
+    "line": "raise RuntimeError(\"PyTorch is required to train Siamese ChangeNet. Please install via 'pip install torch'\")",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 47,
+    "line": "findings: 'Built-up surface area increased by +2.56 ha (25,600 m\u00b2) with 94% radar corroboration across -14.5 dB SAR backscatter.',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 49,
+    "line": "{ label: 'Area Change', value: '+2.56 ha' },",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 77,
+    "line": "findings: 'Industrial encroachment detected along northwestern water reservoir perimeter (+3.12 ha), cross-verified against C-SAR radar intensity.',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 79,
+    "line": "{ label: 'Encroachment', value: '+3.12 ha' },",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 80,
+    "line": "{ label: 'Water Contraction', value: '-1.85 ha' },",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 200,
+    "line": "{ label: 'Hectares Quantified', value: '+2.56 ha' },",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 47,
+    "line": "findings: 'Built-up surface area increased by +2.56 ha (25,600 m\u00b2) with 94% radar corroboration across -14.5 dB SAR backscatter.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 51,
+    "line": "{ label: 'SAR Threshold', value: '-14.5 dB' },",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 137,
+    "line": "findings: 'Cloud-penetrating SAR radar corroborated standing water boundary during heavy monsoon cloud overcast with -16.2 dB backscatter threshold.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 142,
+    "line": "{ label: 'Threshold', value: '-16.2 dB' },",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 40,
+    "line": "sensors: 'Sentinel-2 Optical (10m) + Sentinel-1 SAR C-band',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 70,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 70,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 100,
+    "line": "sensors: 'Sentinel-2 Multi-Spectral (10m GSD)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 112,
+    "line": "{ label: 'GSD Resolution', value: '10m' },",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 160,
+    "line": "sensors: 'Sentinel-2 MSI \u00b7 10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 220,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Cartosat Baseline',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 183,
+    "line": "name: 'Bangalore Peri-Urban Bi-Temporal Siamese ChangeNet',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 34,
+    "line": "date: '2026-01-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 64,
+    "line": "date: '2026-01-04',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 94,
+    "line": "date: '2025-11-20',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 124,
+    "line": "date: '2025-08-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 154,
+    "line": "date: '2024-10-02',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 184,
+    "line": "date: '2024-04-18',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/types/dossier.ts",
+    "line_no": 214,
+    "line": "date: '2024-01-18',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/EvidenceGraph.tsx",
+    "line_no": 46,
+    "line": "<p className=\"text-[10px] font-mono text-neutral-500 mt-1\">Sentinel-2 (10m) \u00b7 S1 C-band</p>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/EvidenceGraph.tsx",
+    "line_no": 57,
+    "line": "<p className=\"text-xs font-semibold text-neutral-200\">Siamese ChangeNet</p>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/CorroborationCard.tsx",
+    "line_no": 28,
+    "line": "Joint Multimodal Finding (DOFA ViT-Base Fusion)",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/SearchEarth.tsx",
+    "line_no": 218,
+    "line": "placeholder=\"Enter location name or coordinates (e.g., 17.3850, 78.4867 or Hyderabad)...\"",
+    "rule": "hardcoded_coordinate_pair",
+    "reason": "Looks like a hardcoded lat/lon pair embedded in logic rather than sourced from real geometry."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/SearchEarth.tsx",
+    "line_no": 473,
+    "line": "<span>Tip: Enter decimal coordinates like 17.3850, 78.4867 for custom AOI</span>",
+    "rule": "hardcoded_coordinate_pair",
+    "reason": "Looks like a hardcoded lat/lon pair embedded in logic rather than sourced from real geometry."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/QueryConsole.tsx",
+    "line_no": 300,
+    "line": "<span>{isLoading ? 'Corroborating Multimodal Data...' : 'Run DOFA Optical + SAR Corroboration'}</span>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/page.tsx",
+    "line_no": 68,
+    "line": "missionSensors: 'Sentinel-2 MSI (10m) + Sentinel-1 SAR C-band',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/page.tsx",
+    "line_no": 356,
+    "line": "<td className=\"py-2.5 px-3\">CDVQA / ChangeNet</td>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/api.ts",
+    "line_no": 300,
+    "line": "start_date: params.start_date || '2024-01-01',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/api.ts",
+    "line_no": 301,
+    "line": "end_date: params.end_date || '2026-12-31',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/spectralEngine.ts",
+    "line_no": 59,
+    "line": "vvDb = -6.4 + spatialSeed * 3.2; // Double-bounce corner reflection (> -8 dB)",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/spectralEngine.ts",
+    "line_no": 74,
+    "line": "gsd: '10 m',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/goldenMission.ts",
+    "line_no": 42,
+    "line": "sensors_required: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (VV/VH)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/goldenMission.ts",
+    "line_no": 52,
+    "line": "sensors_required: ['Sentinel-2 MSI (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/goldenMission.ts",
+    "line_no": 31,
+    "line": "t1_date: '2024-03-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/goldenMission.ts",
+    "line_no": 32,
+    "line": "t2_date: '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 366,
+    "line": "{ label: 'PLATT CALIBRATION: ACTIVE', ok: true },",
+    "rule": "platt_calibration_claim",
+    "reason": "Claims Platt calibration; only allowed if real calibration data and a fitted calibrator are present."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 544,
+    "line": "{ name: '5. Platt Calibration & Concordance Scoring', dur: '8ms', ok: true },",
+    "rule": "platt_calibration_claim",
+    "reason": "Claims Platt calibration; only allowed if real calibration data and a fitted calibrator are present."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 107,
+    "line": ": data.totalAreaHa || '+2.56 ha';",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 476,
+    "line": "ctx.fillText('CLUSTER #1: +2.56 ha', mapX + 418, mapY + 102);",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 136,
+    "line": "sub: 'Dual-Optical & Sentinel-1 C-band (-14.5 dB)',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 358,
+    "line": "'Bi-temporal Siamese ChangeNet detected +2.56 hectares of built-up expansion between 2024 and 2026. Cross-examination with Sentinel-1 SAR C-band radar reveals -14.5 dB intense backscatter, confirming permanent masonry infrastructure and rejecting optical false positives caused by seasonal soil moisture.';",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 367,
+    "line": "{ label: 'SAR THRESHOLD: -14.5 dB CORROBORATED', ok: true },",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 358,
+    "line": "'Bi-temporal Siamese ChangeNet detected +2.56 hectares of built-up expansion between 2024 and 2026. Cross-examination with Sentinel-1 SAR C-band radar reveals -14.5 dB intense backscatter, confirming permanent masonry infrastructure and rejecting optical false positives caused by seasonal soil moisture.';",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/lib/snapshotGenerator.ts",
+    "line_no": 542,
+    "line": "{ name: '3. Siamese ChangeNet 2D Feature Extraction', dur: '185ms', ok: true },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 430,
+    "line": "confidence: 0.94,",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 440,
+    "line": "confidence: 0.88,",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 478,
+    "line": "annotation: 'Confirmed 1.82 ha expansion within \u00b10.15 ha Golden Mission tolerance',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 478,
+    "line": "annotation: 'Confirmed 1.82 ha expansion within \u00b10.15 ha Golden Mission tolerance',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 509,
+    "line": "annotation: 'Confirmed 0.74 ha expansion within \u00b10.10 ha Golden Mission tolerance',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 509,
+    "line": "annotation: 'Confirmed 0.74 ha expansion within \u00b10.10 ha Golden Mission tolerance',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 620,
+    "line": "detail: 'WGS84 \u2192 UTM Zone 43N projected metric area: 25,600 m\u00b2 (2.56 ha)',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1036,
+    "line": "'Bi-temporal ChangeNet analysis detected 12.4% surface alteration across 25,600 m\u00b2 (+2.56 ha) divided into 2 distinct expansion clusters. Sentinel-1 C-band SAR (-14.5 dB backscatter) and Sentinel-2 spectral divergence corroborate the new built-up construction.'",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1038,
+    "line": "const [customAreaHa, setCustomAreaHa] = useState<string>('+2.56 ha');",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1658,
+    "line": "'Text-guided visual referring expression localized the northeastern water reservoir at UTM 43N [680000, 1387000] covering 2.31 ha (23,100 m\u00b2).'",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1660,
+    "line": "setCustomAreaHa('2.31 ha');",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1672,
+    "line": "setCustomAreaHa('10.80 ha');",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1678,
+    "line": "'Bi-temporal ChangeNet analysis detected 12.4% surface alteration across 25,600 m\u00b2 (+2.56 ha) divided into 2 distinct expansion clusters. Sentinel-1 C-band SAR (-14.5 dB backscatter) and Sentinel-2 spectral divergence corroborate the new built-up construction.'",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1680,
+    "line": "setCustomAreaHa('+2.56 ha');",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 155,
+    "line": "'Compare optical reflectance against SAR -14.5 dB backscatter.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 249,
+    "line": "'Corroborate optical findings with Sentinel-1 SAR -14.5 dB backscatter',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 539,
+    "line": "subtitle: '-14.5 dB C-band Radar Backscatter',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 611,
+    "line": "detail: '-14.5 dB \u03c3\u2070 backscatter confirms urban surface change',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1036,
+    "line": "'Bi-temporal ChangeNet analysis detected 12.4% surface alteration across 25,600 m\u00b2 (+2.56 ha) divided into 2 distinct expansion clusters. Sentinel-1 C-band SAR (-14.5 dB backscatter) and Sentinel-2 spectral divergence corroborate the new built-up construction.'",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1642,
+    "line": "'Sentinel-1 SAR Radar Dual-Pol Corroboration (-14.5 dB \u03c3\u2070)',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1678,
+    "line": "'Bi-temporal ChangeNet analysis detected 12.4% surface alteration across 25,600 m\u00b2 (+2.56 ha) divided into 2 distinct expansion clusters. Sentinel-1 C-band SAR (-14.5 dB backscatter) and Sentinel-2 spectral divergence corroborate the new built-up construction.'",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 143,
+    "line": "sensors: 'Sentinel-2 Optical (10m) + Sentinel-1 SAR C-band',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 163,
+    "line": "sensors: 'Sentinel-2 MSI \u00b7 10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 182,
+    "line": "sensors: 'Sentinel-2 Multi-Spectral (10m GSD)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 239,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 239,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 262,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 274,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 286,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 305,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 326,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 348,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 369,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 453,
+    "line": "sensor: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 453,
+    "line": "sensor: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 486,
+    "line": "sensor: 'Sentinel-2 MSI (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1236,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1236,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1624,
+    "line": "sensor: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1624,
+    "line": "sensor: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 202,
+    "line": "task: 'Siamese ChangeNet 2D Convolutional Surface Change',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 456,
+    "line": "modelName: 'Siamese ChangeNet 2D CNN',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 489,
+    "line": "modelName: 'Siamese ChangeNet 2D CNN',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 503,
+    "line": "'ChangeNet Feature Map Extraction',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 522,
+    "line": "source: 'Siamese ChangeNet CNN',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 582,
+    "line": "stage: 'CHANGENET',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 583,
+    "line": "label: 'SIAMESE CHANGENET INFERENCE',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 671,
+    "line": "{ key: 'analyzing', label: 'ANALYZING', detail: 'Siamese ChangeNet 2D convolutional inference' },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 812,
+    "line": "geochat: string;",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 813,
+    "line": "changenet: string;",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 814,
+    "line": "dofa: string;",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1036,
+    "line": "'Bi-temporal ChangeNet analysis detected 12.4% surface alteration across 25,600 m\u00b2 (+2.56 ha) divided into 2 distinct expansion clusters. Sentinel-1 C-band SAR (-14.5 dB backscatter) and Sentinel-2 spectral divergence corroborate the new built-up construction.'",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1627,
+    "line": "modelName: 'Siamese ChangeNet 2D CNN',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1678,
+    "line": "'Bi-temporal ChangeNet analysis detected 12.4% surface alteration across 25,600 m\u00b2 (+2.56 ha) divided into 2 distinct expansion clusters. Sentinel-1 C-band SAR (-14.5 dB backscatter) and Sentinel-2 spectral divergence corroborate the new built-up construction.'",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1838,
+    "line": "changenet: 'Real CNN Active',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 1839,
+    "line": "dofa: 'Deterministic Corroboration',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 149,
+    "line": "dateT1: '2024-03-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 150,
+    "line": "dateT2: '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 169,
+    "line": "dateT1: '2025-05-10',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 170,
+    "line": "dateT2: '2026-01-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 188,
+    "line": "dateT1: '2025-07-22',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 189,
+    "line": "dateT2: '2026-02-18',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 207,
+    "line": "dateT1: '2024-03-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 208,
+    "line": "dateT2: '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 226,
+    "line": "dateT1: '2024-11-04',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 227,
+    "line": "dateT2: '2025-11-20',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 245,
+    "line": "dateT1: '2025-09-12',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/context/WorkspaceContext.tsx",
+    "line_no": 246,
+    "line": "dateT2: '2026-09-06',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 62,
+    "line": "'Siamese ChangeNet detected +1.82 ha of new commercial built-up structures, corroborated by -14.5 dB radar double-bounce backscatter.',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 63,
+    "line": "areaHa: '+1.82 ha',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 87,
+    "line": "areaHa: '+2.56 ha',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 111,
+    "line": "areaHa: '15.20 ha',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 135,
+    "line": "areaHa: '+3.40 ha',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 62,
+    "line": "'Siamese ChangeNet detected +1.82 ha of new commercial built-up structures, corroborated by -14.5 dB radar double-bounce backscatter.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 67,
+    "line": "sarBackscatterDb: '-14.5 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 91,
+    "line": "sarBackscatterDb: '-13.8 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 110,
+    "line": "'Persistent surface water identified via specular radar backscatter (\u03c3\u2070 < -21.0 dB), penetrating monsoon cloud occlusion completely.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 115,
+    "line": "sarBackscatterDb: '-22.1 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 139,
+    "line": "sarBackscatterDb: '-15.2 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 185,
+    "line": "sarBackscatterDb: '-14.5 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 59,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 SAR C-band',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 83,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 131,
+    "line": "sensors: 'Sentinel-2 Multi-spectral (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 178,
+    "line": "sensors: currentLoc.sensors || 'Sentinel-2 (10m) + Sentinel-1 SAR',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 62,
+    "line": "'Siamese ChangeNet detected +1.82 ha of new commercial built-up structures, corroborated by -14.5 dB radar double-bounce backscatter.',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 180,
+    "line": "findingSummary: ws.customInsight || 'Bi-temporal ChangeNet detected surface alterations.',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 57,
+    "line": "dateT1: '2024-03-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 58,
+    "line": "dateT2: '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 81,
+    "line": "dateT1: '2025-09-12',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 82,
+    "line": "dateT2: '2026-09-06',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 105,
+    "line": "dateT1: '2024-11-04',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 106,
+    "line": "dateT2: '2025-11-20',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 129,
+    "line": "dateT1: '2024-01-10',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 130,
+    "line": "dateT2: '2026-02-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 176,
+    "line": "dateT1: currentLoc.dateT1 || ws.dateT1 || '2024-03-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/AnalysesDrawer.tsx",
+    "line_no": 177,
+    "line": "dateT2: currentLoc.dateT2 || ws.dateT2 || '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 71,
+    "line": "Platt-calibrated multimodal corroboration across dual-optical spectral divergence and Sentinel-1 C-band backscatter.",
+    "rule": "platt_calibration_claim",
+    "reason": "Claims Platt calibration; only allowed if real calibration data and a fitted calibrator are present."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 282,
+    "line": "<p>Calculated Area: <strong className=\"text-[#111111]\">25,600 m\u00b2 (2.56 ha)</strong></p>",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 178,
+    "line": "<p><strong>Backscatter Value:</strong> -14.5 dB \u03c3\u2070</p>",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 269,
+    "line": "<strong className=\"text-[#111111]\">SAR Corroboration:</strong> Sentinel-1 -14.5 dB backscatter confirms built-up expansion.",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 208,
+    "line": "<p><strong>Native GSD:</strong> 10m Ground Sample Distance</p>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 242,
+    "line": "<strong className=\"text-[#111111]\">Input Compatibility:</strong> Optical T1/T2 + SAR rasters verified on disk (10m GSD).",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 280,
+    "line": "<p>Native GSD: <strong>10m</strong></p>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 93,
+    "line": "<h4 className=\"text-xs font-bold text-[#111111]\">Siamese ChangeNet</h4>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/EvidenceDrawer.tsx",
+    "line_no": 260,
+    "line": "<strong className=\"text-[#111111]\">Siamese ChangeNet:</strong> 2D Sigmoid CNN detects altered surface clusters above 0.50 threshold.",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 293,
+    "line": "text: 'Centered workspace on Bangalore Urban Corridor (12.9716\u00b0N, 77.5946\u00b0E, UTM Zone 43N). Multi-temporal baseline 2024 vs 2026 active with +1.82 ha identified expansion.',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 461,
+    "line": "answerText = `Visual grounding model localized primary water body in ${loc.name} (${loc.lat.toFixed(4)}\u00b0N, ${loc.lon.toFixed(4)}\u00b0E) with high confidence. NDWI spectral index confirms surface liquid boundaries covering 2.31 ha.`;",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 132,
+    "line": "sarBackscatterDb: '-14.5 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 140,
+    "line": "{ tool: 'Sentinel-1 SAR Corroboration', description: 'Cross-checked -14.5 dB backscatter', status: 'completed' },",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 178,
+    "line": "text: 'Switched active lens to Sentinel-1 C-band SAR Radar. Notice how specular water appears dark (< -20 dB), diffuse vegetation returns moderate backscatter (-14 dB), and artificial concrete structures show high double-bounce reflection (> -3 dB).',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 178,
+    "line": "text: 'Switched active lens to Sentinel-1 C-band SAR Radar. Notice how specular water appears dark (< -20 dB), diffuse vegetation returns moderate backscatter (-14 dB), and artificial concrete structures show high double-bounce reflection (> -3 dB).',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 178,
+    "line": "text: 'Switched active lens to Sentinel-1 C-band SAR Radar. Notice how specular water appears dark (< -20 dB), diffuse vegetation returns moderate backscatter (-14 dB), and artificial concrete structures show high double-bounce reflection (> -3 dB).',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 179,
+    "line": "sarBackscatterDb: '-14.5 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 391,
+    "line": "text: 'Synthetic Aperture Radar (SAR) transmits microwave pulses (C-band \u03bb=5.6 cm) and measures the backscattered energy in decibels (\u03c3\u2070 dB):\\n\\n\u2022 **Water / Calm Surfaces**: Specular reflection directs radar waves away, appearing dark (< -20 dB).\\n\u2022 **Vegetation & Crops**: Volumetric diffuse scattering returns moderate energy (-16 to -12 dB).\\n\u2022 **Buildings & Bridges**: Double-bounce dihedral corner reflection creates bright specular returns (> -3 dB).\\n\\nSatQuery uses SAR to cross-corroborate optical findings so shadow or seasonal moisture changes are not mistaken for permanent construction.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 391,
+    "line": "text: 'Synthetic Aperture Radar (SAR) transmits microwave pulses (C-band \u03bb=5.6 cm) and measures the backscattered energy in decibels (\u03c3\u2070 dB):\\n\\n\u2022 **Water / Calm Surfaces**: Specular reflection directs radar waves away, appearing dark (< -20 dB).\\n\u2022 **Vegetation & Crops**: Volumetric diffuse scattering returns moderate energy (-16 to -12 dB).\\n\u2022 **Buildings & Bridges**: Double-bounce dihedral corner reflection creates bright specular returns (> -3 dB).\\n\\nSatQuery uses SAR to cross-corroborate optical findings so shadow or seasonal moisture changes are not mistaken for permanent construction.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 391,
+    "line": "text: 'Synthetic Aperture Radar (SAR) transmits microwave pulses (C-band \u03bb=5.6 cm) and measures the backscattered energy in decibels (\u03c3\u2070 dB):\\n\\n\u2022 **Water / Calm Surfaces**: Specular reflection directs radar waves away, appearing dark (< -20 dB).\\n\u2022 **Vegetation & Crops**: Volumetric diffuse scattering returns moderate energy (-16 to -12 dB).\\n\u2022 **Buildings & Bridges**: Double-bounce dihedral corner reflection creates bright specular returns (> -3 dB).\\n\\nSatQuery uses SAR to cross-corroborate optical findings so shadow or seasonal moisture changes are not mistaken for permanent construction.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 392,
+    "line": "sarBackscatterDb: '-14.5 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 463,
+    "line": "answerText = `Bi-temporal analysis over ${loc.name} detected +${ha} ha (${m2.toLocaleString()} m\u00b2) of ground surface alteration between observations. Sentinel-1 C-band SAR (-14.5 dB backscatter) corroborates new permanent built-up structures.`;",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 483,
+    "line": "sarBackscatterDb: '-14.5 dB \u03c3\u2070',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 487,
+    "line": "{ tool: 'Sentinel-1 SAR Corroboration', description: 'Cross-checked -14.5 dB backscatter', status: 'completed' },",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 671,
+    "line": "{msg.sarBackscatterDb || '-14.5 dB \u03c3\u2070'}",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 377,
+    "line": "text: 'SatQuery AI natively integrates:\\n\\n\u2022 **Sentinel-2A/B (MSI)**: 13 multispectral bands (10m B2, B3, B4, B8; 20m Red Edge & SWIR B11/B12). Optimal for vegetative health and optical change.\\n\u2022 **Sentinel-1A (C-SAR)**: 5.405 GHz C-band microwave Synthetic Aperture Radar (10m GRD dual-pol VV/VH). Penetrates dense monsoon cloud cover 24/7.\\n\u2022 **Landsat-8/9 (OLI-2/TIRS-2)**: 30m multispectral + 15m panchromatic thermal calibration.\\n\u2022 **STAC API v1.0.0**: Dynamic spatio-temporal asset catalog query engine.',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 377,
+    "line": "text: 'SatQuery AI natively integrates:\\n\\n\u2022 **Sentinel-2A/B (MSI)**: 13 multispectral bands (10m B2, B3, B4, B8; 20m Red Edge & SWIR B11/B12). Optimal for vegetative health and optical change.\\n\u2022 **Sentinel-1A (C-SAR)**: 5.405 GHz C-band microwave Synthetic Aperture Radar (10m GRD dual-pol VV/VH). Penetrates dense monsoon cloud cover 24/7.\\n\u2022 **Landsat-8/9 (OLI-2/TIRS-2)**: 30m multispectral + 15m panchromatic thermal calibration.\\n\u2022 **STAC API v1.0.0**: Dynamic spatio-temporal asset catalog query engine.',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 377,
+    "line": "text: 'SatQuery AI natively integrates:\\n\\n\u2022 **Sentinel-2A/B (MSI)**: 13 multispectral bands (10m B2, B3, B4, B8; 20m Red Edge & SWIR B11/B12). Optimal for vegetative health and optical change.\\n\u2022 **Sentinel-1A (C-SAR)**: 5.405 GHz C-band microwave Synthetic Aperture Radar (10m GRD dual-pol VV/VH). Penetrates dense monsoon cloud cover 24/7.\\n\u2022 **Landsat-8/9 (OLI-2/TIRS-2)**: 30m multispectral + 15m panchromatic thermal calibration.\\n\u2022 **STAC API v1.0.0**: Dynamic spatio-temporal asset catalog query engine.',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 139,
+    "line": "{ tool: 'Siamese ChangeNet', description: 'Extracted altered surface mask', status: 'completed' },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 195,
+    "line": "text: 'Switched active lens to Siamese ChangeNet Mask. Highlighting bi-temporal altered polygon contours with confidence scoring overlay.',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 399,
+    "line": "if (qLower.includes('how does change detection work') || qLower.includes('changenet') || qLower.includes('model')) {",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 407,
+    "line": "text: 'SatQuery utilizes a Siamese 2D CNN architecture (ChangeNet):\\n\\n1. **Co-Registration**: Sub-pixel geometric alignment of T1 baseline and T2 target rasters.\\n2. **Feature Extraction**: Shared twin CNN encoders extract spatial-spectral embeddings.\\n3. **Difference Map**: Pixel-wise Euclidean distance in feature space highlights alteration contours.\\n4. **Geodesic Integration**: Contours are projected into WGS84 ellipsoidal geometry to calculate exact metric area in hectares and square meters.',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 410,
+    "line": "{ tool: 'Siamese ChangeNet', description: 'Generated binary change mask with 0.842 mIoU', status: 'completed' },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/ChatAssistantDrawer.tsx",
+    "line_no": 486,
+    "line": "{ tool: 'Siamese ChangeNet', description: `Identified altered surface mask (${ha} ha)`, status: 'completed' },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/SceneDrawer.tsx",
+    "line_no": 72,
+    "line": "<span className=\"text-[10px] font-mono text-[#888888]\">10m GSD Native</span>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/LayersDrawer.tsx",
+    "line_no": 16,
+    "line": "{ id: 'EVIDENCE', label: 'Evidence Multi-Modal', desc: 'Platt-calibrated decision corroboration overlay' },",
+    "rule": "platt_calibration_claim",
+    "reason": "Claims Platt calibration; only allowed if real calibration data and a fitted calibrator are present."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/drawers/LayersDrawer.tsx",
+    "line_no": 15,
+    "line": "{ id: 'CHANGE', label: 'Temporal Change', desc: 'Siamese ChangeNet 2D probability alteration heatmap' },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 111,
+    "line": "id: 'geochat-7b',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 112,
+    "line": "name: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 125,
+    "line": "id: 'changenet-v1',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 126,
+    "line": "name: 'Siamese ChangeNet',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 138,
+    "line": "id: 'dofa-foundation',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 139,
+    "line": "name: 'DOFA Multimodal Specialist',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SystemHubModal.tsx",
+    "line_no": 336,
+    "line": "<td className=\"p-2.5\">LEVIR-CD / ChangeNet</td>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SettingsModal.tsx",
+    "line_no": 267,
+    "line": "<span>Resolution: 10m GSD</span>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SettingsModal.tsx",
+    "line_no": 233,
+    "line": "<span className=\"font-bold text-white\">Qwen2.5-VL-7B / GeoChat-7B</span>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SettingsModal.tsx",
+    "line_no": 255,
+    "line": "<span className=\"font-bold text-white\">Siamese ChangeNet CNN</span>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/SettingsModal.tsx",
+    "line_no": 277,
+    "line": "<span className=\"font-bold text-white\">DOFA Multimodal Foundation</span>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/AOIImportModal.tsx",
+    "line_no": 137,
+    "line": "<span className=\"text-neutral-300\">2024-01-18 \u00b7 Sentinel-2A</span>",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/AOIImportModal.tsx",
+    "line_no": 141,
+    "line": "<span className=\"text-neutral-300\">2024-08-02 \u00b7 Sentinel-2B</span>",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/AOIImportModal.tsx",
+    "line_no": 145,
+    "line": "<span className=\"text-neutral-300\">2025-02-14 \u00b7 Sentinel-1A (SAR)</span>",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/AOIImportModal.tsx",
+    "line_no": 149,
+    "line": "<span className=\"text-neutral-300\">2026-03-21 \u00b7 Sentinel-2A</span>",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 74,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 85,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 95,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 105,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 116,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 136,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 214,
+    "line": "resolution: obs.resolution || '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 413,
+    "line": "...(hasOptical ? ['Sentinel-2 MSI (10m Optical)'] : []),",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 414,
+    "line": "...(hasSar ? ['Sentinel-1 C-SAR (10m Radar)'] : []),",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 618,
+    "line": "<div className=\"text-[9px] text-[#6F6F6A]\">12-band MSI (10m)</div>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 640,
+    "line": "<div className=\"text-[9px] text-[#6F6F6A]\">VV/VH Radar (10m)</div>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 797,
+    "line": "Click to browse or drop native Sentinel-2 MSI (10m), Sentinel-1 IW GRD, Landsat COGs, or RFC 7946",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 70,
+    "line": "date: '2024-01-18',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 80,
+    "line": "date: '2024-01-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 91,
+    "line": "date: '2024-02-07',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 101,
+    "line": "date: '2026-01-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 111,
+    "line": "date: '2026-01-17',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 122,
+    "line": "date: '2026-01-20',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 132,
+    "line": "date: '2026-02-04',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 150,
+    "line": "const [startDate, setStartDate] = useState<string>('2024-01-18');",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 151,
+    "line": "const [endDate, setEndDate] = useState<string>('2026-01-15');",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 209,
+    "line": "date: obs.date ? obs.date.slice(0, 10) : '2026-09-05',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 346,
+    "line": "acquired: '2026-02-14 05:42:11 UTC',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 405,
+    "line": "t1: '2024-01-18',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/EarthExplorerModal.tsx",
+    "line_no": 406,
+    "line": "t2: '2026-01-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 108,
+    "line": "component: 'Evidence Graph & Platt Calibrated Confidence',",
+    "rule": "platt_calibration_claim",
+    "reason": "Claims Platt calibration; only allowed if real calibration data and a fitted calibrator are present."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 69,
+    "line": "evidenceSummary: 'Identified 2 distinct clusters (+1.82 ha and +0.74 ha) with ORB sub-pixel alignment (RMSE 0.42 px).',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 69,
+    "line": "evidenceSummary: 'Identified 2 distinct clusters (+1.82 ha and +0.74 ha) with ORB sub-pixel alignment (RMSE 0.42 px).',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 102,
+    "line": "evidenceSummary: 'Zero LLM hallucination: area (18,200 m\u00b2, 1.82 ha) and distances calculated purely via geodesics.',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 311,
+    "line": "{goldenStep === 3 && '3/5 Siamese ChangeNet 2D CNN (1.82 ha detected)...'}",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 80,
+    "line": "evidenceSummary: 'VV/VH ratio +3.8 dB to +4.1 dB double-bounce radar return rules out soil moisture transients.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 80,
+    "line": "evidenceSummary: 'VV/VH ratio +3.8 dB to +4.1 dB double-bounce radar return rules out soil moisture transients.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 312,
+    "line": "{goldenStep === 4 && '4/5 C-Band SAR Corroboration (+4.1 dB double bounce)...'}",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 42,
+    "line": "component: 'GeoChat-7B (4-bit NF4) / RSVQA Adapter',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 64,
+    "line": "component: 'Siamese ChangeNet 2D CNN + Shapely Area',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 75,
+    "line": "component: 'DOFA Adapter / Radar Backscatter \u03c3\u2070 Engine',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 300,
+    "line": "Complete end-to-end trace: Ingest \u2192 Align \u2192 Siamese ChangeNet \u2192 SAR Corroboration \u2192 PDF",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/BenchmarkModal.tsx",
+    "line_no": 311,
+    "line": "{goldenStep === 3 && '3/5 Siamese ChangeNet 2D CNN (1.82 ha detected)...'}",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/LiveSatelliteModal.tsx",
+    "line_no": 287,
+    "line": "12-Band Multispectral (RGB, Red-Edge, NIR, SWIR) \u00b7 10m GSD",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/LiveSatelliteModal.tsx",
+    "line_no": 347,
+    "line": "<span>Strict zero-mock: pulls native 10m GSD satellite rasters</span>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/LiveSatelliteModal.tsx",
+    "line_no": 47,
+    "line": "recentAcquisition: '2026-09-04 05:42 UTC',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/LiveSatelliteModal.tsx",
+    "line_no": 59,
+    "line": "recentAcquisition: '2026-09-05 05:14 UTC',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/LiveSatelliteModal.tsx",
+    "line_no": 71,
+    "line": "recentAcquisition: '2026-09-06 00:18 UTC',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/modals/LiveSatelliteModal.tsx",
+    "line_no": 83,
+    "line": "recentAcquisition: '2026-09-03 04:55 UTC',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 49,
+    "line": "sarAnomaly: 'None (+1.1 dB)',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 71,
+    "line": "sarAnomaly: 'Confirmed (+4.2 dB corner reflection)',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 36,
+    "line": "sensors: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 36,
+    "line": "sensors: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 59,
+    "line": "sensors: ['Sentinel-2 Optical (10m)', 'Sentinel-1 SAR C-band'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 105,
+    "line": "sensors: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/monitoring/SentinelWatchModal.tsx",
+    "line_no": 105,
+    "line": "sensors: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/aoi/CustomAOIImporterModal.tsx",
+    "line_no": 56,
+    "line": "tag: 'BANGALORE 12.64 ha',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/aoi/CustomAOIImporterModal.tsx",
+    "line_no": 82,
+    "line": "tag: 'ASSAM 18.45 ha',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/intelligence/FindingPanel.tsx",
+    "line_no": 94,
+    "line": "<span className=\"text-[#333333] font-semibold text-[11px]\">TEMPORAL CHANGENET</span>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/intelligence/FloatingFindingSurface.tsx",
+    "line_no": 33,
+    "line": "const areaHa = finding ? `${finding.spatial.area_ha.toFixed(2)} ha` : ws.totalAreaHa || '18.4 ha';",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/intelligence/FloatingFindingSurface.tsx",
+    "line_no": 190,
+    "line": "<div className=\"text-cyan-400\">Siamese ChangeNet inference</div>",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/inspector/PixelSpectralInspector.tsx",
+    "line_no": 56,
+    "line": "gsd: '10 m',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/inspector/PixelSpectralInspector.tsx",
+    "line_no": 268,
+    "line": "<span className=\"text-neutral-400\">B08 NIR (10m)</span>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/inspector/PixelSpectralInspector.tsx",
+    "line_no": 366,
+    "line": "<span className=\"text-neutral-500 block\">PIXELS SAMPLED (10m)</span>",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/QueryBar.tsx",
+    "line_no": 85,
+    "line": "ws.setCustomInsight('The primary built-up expansion is localized at UTM 43N [485200, 1387400] (Cluster 01, 1.82 ha). Viewport centered on altered polygon.');",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/QueryBar.tsx",
+    "line_no": 95,
+    "line": "ws.setCustomInsight('Filtered to largest change cluster: Cluster 01 covering 1.82 ha (18,200 m\u00b2), representing 71% of total detected alterations.');",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/QueryBar.tsx",
+    "line_no": 109,
+    "line": "ws.setCustomInsight('Sentinel-1 C-band SAR cross-examination confirms double-bounce radar return (-14.5 dB \u03c3\u2070), verifying solid construction.');",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/QueryBar.tsx",
+    "line_no": 248,
+    "line": "? 'Analyzing observation scenes via ChangeNet & SAR...'",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/AgentExecution.tsx",
+    "line_no": 73,
+    "line": "<Check className=\"w-3 h-3 text-emerald-600\" /> SAR -14.5 dB Corroboration",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/AgentExecution.tsx",
+    "line_no": 90,
+    "line": "<CheckCircle2 className=\"w-3.5 h-3.5\" /> 10m Metric Calibration",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/query/AgentExecution.tsx",
+    "line_no": 70,
+    "line": "<Check className=\"w-3 h-3 text-emerald-600\" /> Temporal ChangeNet",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 28,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 42,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 56,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 70,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 84,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 98,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 112,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 126,
+    "line": "resolution: '10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 25,
+    "line": "date: '2024-03-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 39,
+    "line": "date: '2024-07-22',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 53,
+    "line": "date: '2024-11-08',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 67,
+    "line": "date: '2025-02-17',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 81,
+    "line": "date: '2025-06-25',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 95,
+    "line": "date: '2025-10-14',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 109,
+    "line": "date: '2026-01-20',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/timeline/MultiEpochTimeline.tsx",
+    "line_no": 123,
+    "line": "date: '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/InteractiveEarthViewer.tsx",
+    "line_no": 824,
+    "line": "<span>SENTINEL-1 C-SAR IW GRDH \u00b7 VV/VH CO-POL \u00b7 -14.5 dB \u03c3\u2070</span>",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/CompactViewSelector.tsx",
+    "line_no": 20,
+    "line": "{ id: 'CHANGE', label: 'Change Probability Mask', desc: 'Siamese ChangeNet neural alteration', category: 'Analytics' },",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/SatelliteObservationCanvas.tsx",
+    "line_no": 253,
+    "line": "{/* Rough Soil / Canopy Matrix (-18 dB) */}",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/SatelliteObservationCanvas.tsx",
+    "line_no": 256,
+    "line": "{/* Specular Water Absorption (-26 dB) */}",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/SatelliteObservationCanvas.tsx",
+    "line_no": 270,
+    "line": "{/* Moderate Urban Backscatter (-15 dB) */}",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/SatelliteObservationCanvas.tsx",
+    "line_no": 275,
+    "line": "{/* High Double-Bounce Radar Return on New Concrete Roofs (-14.5 dB) */}",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/RealisticSatelliteCanvas.tsx",
+    "line_no": 874,
+    "line": "{/* Annotation Tag: 01 \u00b7 +1.82 ha */}",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/RealisticSatelliteCanvas.tsx",
+    "line_no": 634,
+    "line": "{/* ChangeNet Probability Heatmap overlay on T2 */}",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/MapToolbar.tsx",
+    "line_no": 178,
+    "line": "{/* Sub-tier for CHANGE: ChangeNet vs Multi-modal Evidence Spotlight */}",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/MapToolbar.tsx",
+    "line_no": 190,
+    "line": "ChangeNet Mask",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/SearchEarthInput.tsx",
+    "line_no": 587,
+    "line": "<span className=\"font-mono font-bold text-[#111111]\">17.3850, 78.4867</span>) to query",
+    "rule": "hardcoded_coordinate_pair",
+    "reason": "Looks like a hardcoded lat/lon pair embedded in logic rather than sourced from real geometry."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/MapMetadata.tsx",
+    "line_no": 37,
+    "line": "? 'SENTINEL-1 C-SAR \u00b7 10m'",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/MapMetadata.tsx",
+    "line_no": 42,
+    "line": ": 'SENTINEL-2 L2A \u00b7 10m';",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/map/PixelMicroscopeModal.tsx",
+    "line_no": 37,
+    "line": "const gsd = data.gsd_meters ? `${data.gsd_meters} m` : '10 m';",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/system/ModelStatus.tsx",
+    "line_no": 28,
+    "line": "? 'Live neural inference active \u00b7 3 assets \u00b7 10m GSD'",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/components/system/ModelStatus.tsx",
+    "line_no": 29,
+    "line": ": 'Offline demonstration mode \u00b7 3 assets synchronized \u00b7 10m GSD'}",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 79,
+    "line": "subtitle: 'Compound ChangeNet 2D CNN (IoU 0.842) \u00b7 1.82 ha expansion verified',",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 20,
+    "line": "sensors: 'Sentinel-2 Optical (10m) + Sentinel-1 SAR C-band',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 30,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 30,
+    "line": "sensors: 'Sentinel-2 MSI (10m) + Sentinel-1 C-SAR (10m)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 40,
+    "line": "sensors: 'Sentinel-2 MSI \u00b7 10m GSD',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 50,
+    "line": "sensors: 'Sentinel-2 Multi-Spectral (10m GSD)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 173,
+    "line": "subtitle: '10m GSD Multi-Spectral BOA Surface Reflectance Collection',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 181,
+    "line": "subtitle: '10m C-band Microwave Radar Backscatter (VV/VH Polarization)',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/search/route.ts",
+    "line_no": 61,
+    "line": "keywords: ['temporal', 'changenet', 'change detection', 'peri-urban', 'expansion'],",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 43,
+    "line": "key: 'geochat',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 44,
+    "line": "name: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 52,
+    "line": "key: 'changenet',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 53,
+    "line": "name: 'Siamese ChangeNet',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 61,
+    "line": "key: 'dofa',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 62,
+    "line": "name: 'DOFA Dynamic Foundation Model',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/models/route.ts",
+    "line_no": 78,
+    "line": "active_model: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/health/route.ts",
+    "line_no": 31,
+    "line": "active_model: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/images/timeline/route.ts",
+    "line_no": 9,
+    "line": "date: '2024-03-15',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/images/timeline/route.ts",
+    "line_no": 22,
+    "line": "date: '2025-07-22',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/images/timeline/route.ts",
+    "line_no": 35,
+    "line": "date: '2026-03-18',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/images/timeline/route.ts",
+    "line_no": 48,
+    "line": "date: '2026-03-19',",
+    "rule": "iso_date_literal",
+    "reason": "Literal ISO date; timestamps must come from ObservationRecord.timestamp, not a string literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/images/inspect/route.ts",
+    "line_no": 66,
+    "line": "confidence: 0.98,",
+    "rule": "hardcoded_confidence",
+    "reason": "Fixed numeric confidence assigned directly rather than computed from EvidenceFactors."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 154,
+    "line": "<tr><td>01</td><td>Logistics & Warehousing</td><td>8.20 ha</td><td>-14.2 dB</td><td>94.0%</td></tr>",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 155,
+    "line": "<tr><td>02</td><td>Industrial Expansion</td><td>10.25 ha</td><td>-13.8 dB</td><td>92.0%</td></tr>",
+    "rule": "hardcoded_area_ha",
+    "reason": "Hardcoded hectare value; areas must come from Shapely geodesic computation, never a literal."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 145,
+    "line": "Bi-temporal optical and radar cross-corroboration validates 18.45 hectares of built-up infrastructure expansion. Radar backscatter signatures (-14.2 dB) verify physical structures, refuting false alarms.",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 154,
+    "line": "<tr><td>01</td><td>Logistics & Warehousing</td><td>8.20 ha</td><td>-14.2 dB</td><td>94.0%</td></tr>",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 155,
+    "line": "<tr><td>02</td><td>Industrial Expansion</td><td>10.25 ha</td><td>-13.8 dB</td><td>92.0%</td></tr>",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 107,
+    "line": "sensors: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/reports/[job_id]/[format]/route.ts",
+    "line_no": 107,
+    "line": "sensors: ['Sentinel-2 MSI (10m)', 'Sentinel-1 C-SAR (10m)'],",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/optical-sar/route.ts",
+    "line_no": 17,
+    "line": "'Optical built-up cluster strongly corroborated by Sentinel-1 SAR -14.2 dB double-bounce radar backscatter.',",
+    "rule": "hardcoded_sar_db",
+    "reason": "Hardcoded SAR backscatter dB value; must come from real sigma0 computation."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/optical-sar/route.ts",
+    "line_no": 54,
+    "line": "model_used: 'DOFA + Sentinel-1 SAR Corroborator',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/optical-sar/route.ts",
+    "line_no": 74,
+    "line": "model: 'DOFA Dynamic Foundation',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/vqa/route.ts",
+    "line_no": 51,
+    "line": "description: 'Multimodal VQA reasoning over 10m Sentinel-2 bands.',",
+    "rule": "hardcoded_gsd",
+    "reason": "Hardcoded ground sample distance; must come from the ObservationRecord.gsd of the actual asset read."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/vqa/route.ts",
+    "line_no": 28,
+    "line": "notes: ['GeoChat-7B remote sensing vision-language model inference completed.'],",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/vqa/route.ts",
+    "line_no": 35,
+    "line": "model_used: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/vqa/route.ts",
+    "line_no": 50,
+    "line": "tool: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  },
+  {
+    "path": "satquery-ai/apps/web/src/app/api/v1/analysis/vqa/route.ts",
+    "line_no": 54,
+    "line": "model: 'GeoChat-7B',",
+    "rule": "named_model_without_status_check",
+    "reason": "Model name referenced without a nearby READY/VERIFIED status check \u2014 risk of implying real inference occurred."
+  }
+]

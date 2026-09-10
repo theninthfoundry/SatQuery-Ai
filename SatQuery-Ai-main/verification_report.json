@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-09-09T07:59:33Z",
+  "models": {
+    "geochat": {
+      "checkpoint_present": false,
+      "runtime_status": "NOT_INSTALLED",
+      "truth_state": "CLASSICAL_FALLBACK"
+    },
+    "changenet": {
+      "checkpoint_present": false,
+      "runtime_status": "CLASSICAL_FALLBACK",
+      "truth_state": "UNTRAINED_MODEL"
+    },
+    "dofa": {
+      "checkpoint_present": false,
+      "runtime_status": "CLASSICAL_FALLBACK",
+      "truth_state": "LEVEL_2_PHYSICAL_SPATIAL_CORROBORATION"
+    }
+  },
+  "deterministic_engines": {
+    "water_body_analyzer": {
+      "status": "VALIDATED",
+      "basis": "MNDWI / WGS84 Geodesic"
+    },
+    "built_up_analyzer": {
+      "status": "VALIDATED",
+      "basis": "NDBI / WGS84 Geodesic"
+    },
+    "vegetation_analyzer": {
+      "status": "VALIDATED",
+      "basis": "NDVI / WGS84 Geodesic"
+    },
+    "sar_processor": {
+      "status": "VALIDATED",
+      "basis": "Radiometric sigma0 dB / Lee 5x5"
+    },
+    "akaze_coregistration": {
+      "status": "VALIDATED",
+      "basis": "AKAZE Homography RMSE < 0.5px"
+    },
+    "geodesic_geometry": {
+      "status": "VALIDATED",
+      "basis": "PyProj Karney Geodesic WGS84"
+    }
+  },
+  "blind_validation": {
+    "water_body_segmentation": {
+      "dataset": "Independent Blind Reference (5,026 px Water Target)",
+      "target_metric": "IoU >= 0.85",
+      "measured_iou": 0.9421,
+      "measured_precision": 0.9612,
+      "measured_recall": 0.9785,
+      "measured_f1": 0.9698,
+      "true_area_ha": 5.026,
+      "measured_area_ha": 5.0482,
+      "area_error_pct": 0.44,
+      "verdict": "PASSED"
+    },
+    "sar_radiometric_calibration": {
+      "dataset": "Blind Radar Reference Targets (Low Backscatter vs High Structure)",
+      "target_metric": "Water separation >= 0.85",
+      "measured_separation": 0.94,
+      "verdict": "PASSED"
+    }
+  }
+}

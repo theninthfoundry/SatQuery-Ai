@@ -1,0 +1,27 @@
+# Experiment E001: GeoChat-7B RSVQA-HR Baseline Evaluation
+experiment_id: "E001_geochat_vqa_baseline"
+task: "visual_question_answering"
+dataset:
+  name: "RSVQA-HR"
+  split: "test"
+  data_dir: "data/benchmarks/rsvqa_hr"
+  max_samples: 1000
+
+model:
+  name: "geochat_7b"
+  checkpoint_dir: "models/checkpoints/geochat"
+  quantization: "4bit_nf4"
+  max_new_tokens: 128
+  temperature: 0.0
+
+metrics:
+  primary: "top1_accuracy"
+  secondary:
+    - "exact_match"
+    - "presence_accuracy"
+    - "count_accuracy"
+    - "area_accuracy"
+
+hardware:
+  device: "cuda:0"
+  min_vram_mb: 4500

@@ -1,0 +1,44 @@
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Node & Next.js
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# SQLite & Runtime DBs
+*.db
+*.sqlite
+*.sqlite3
+
+# Runtime Data & Previews
+data/previews/
+data/uploads/
+satquery-ai/data/previews/
+satquery-ai/data/uploads/
+
+# Model Checkpoints & Large weights
+*.pt
+*.pth
+*.safetensors
+checkpoints/
+satquery-ai/checkpoints/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

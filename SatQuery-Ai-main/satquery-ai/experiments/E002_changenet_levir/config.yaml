@@ -1,0 +1,26 @@
+# Experiment E002: Siamese ChangeNet on LEVIR-CD Benchmark
+experiment_id: "E002_changenet_levir"
+task: "bi_temporal_change_detection"
+dataset:
+  name: "LEVIR-CD"
+  split: "test"
+  data_dir: "data/benchmarks/levir_cd"
+  resolution_meters: 0.5
+  patch_size: 256
+
+model:
+  name: "siamese_changenet"
+  checkpoint_path: "checkpoints/levir_cd/best.pt"
+  architecture: "SiameseResNet18_FPN"
+
+metrics:
+  primary: "f1_score"
+  secondary:
+    - "iou"
+    - "precision"
+    - "recall"
+    - "overall_accuracy"
+
+hardware:
+  device: "cuda:0"
+  min_vram_mb: 2500

@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: satquery
+      POSTGRES_PASSWORD: satquery
+      POSTGRES_DB: satquery
+    ports:
+      - "5432:5432"
+    volumes:
+      - satquery_pgdata:/var/lib/postgresql/data
+
+volumes:
+  satquery_pgdata:

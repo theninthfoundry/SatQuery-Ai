@@ -1,0 +1,38 @@
+{
+  "status": "PENDING_LIVE_EVALUATION",
+  "warning": "No benchmark results have been experimentally verified yet. Sample validation tests confirm harness logic works correctly, but no real dataset evaluation has been performed.",
+  "harness_status": {
+    "rsvqa": {
+      "harness": "implemented",
+      "sample_validation": "passed",
+      "dataset_evaluation": "pending",
+      "target_dataset": "RSVQA-HR test split"
+    },
+    "grounding": {
+      "harness": "implemented",
+      "sample_validation": "passed",
+      "dataset_evaluation": "pending",
+      "target_dataset": "VRSBench grounding split"
+    },
+    "change_detection": {
+      "harness": "implemented",
+      "sample_validation": "passed",
+      "dataset_evaluation": "pending",
+      "target_dataset": "LEVIR-CD / CDVQA test"
+    },
+    "optical_sar_corroboration": {
+      "harness": "implemented",
+      "sample_validation": "passed",
+      "dataset_evaluation": "pending",
+      "target_dataset": "BigEarthNet-S1/S2"
+    },
+    "confidence_calibration": {
+      "harness": "implemented",
+      "sample_validation": "passed",
+      "dataset_evaluation": "pending",
+      "target_dataset": "Held-out validation set"
+    }
+  },
+  "experiments": [],
+  "last_updated": "2026-09-06"
+}

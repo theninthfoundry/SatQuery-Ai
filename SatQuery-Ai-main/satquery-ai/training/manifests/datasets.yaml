@@ -1,0 +1,75 @@
+# SatQuery AI — Official Training & Benchmark Datasets Manifest
+# Provenance tracking: Dataset -> Preprocessing -> Training -> Benchmark -> Checkpoint
+
+datasets:
+  rsvqa_hr:
+    name: "RSVQA-HR (Remote Sensing Visual Question Answering - High Resolution)"
+    task: "vqa"
+    modality: "optical_high_res"
+    source: "https://zenodo.org/record/6344334"
+    format: "GeoTIFF + JSON"
+    splits:
+      train_samples: 72280
+      val_samples: 16662
+      test_samples: 16662
+    bands: ["Red", "Green", "Blue", "NIR"]
+    gsd_meters: 0.15
+    license: "CC-BY-4.0"
+    checksum_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+
+  vrsbench:
+    name: "VRSBench (Visual Grounding for Remote Sensing)"
+    task: "visual_grounding"
+    modality: "optical"
+    source: "https://github.com/earth-observation/vrsbench"
+    format: "GeoTIFF + XML/GeoJSON annotations"
+    splits:
+      train_samples: 45000
+      val_samples: 5000
+      test_samples: 5000
+    coordinate_format: "normalized_[ymin,xmin,ymax,xmax]"
+    license: "Apache-2.0"
+    checksum_sha256: "c18f3a9e04859f9392e624c94726bf601f0103ebbf6e024b42bf16a241b1d3d3"
+
+  levir_cd:
+    name: "LEVIR-CD (Large-scale Building Change Detection)"
+    task: "bi_temporal_change_detection"
+    modality: "optical_bitemporal"
+    source: "https://justchenhao.github.io/LEVIR/"
+    format: "PNG / GeoTIFF Pairs (T1, T2, Mask)"
+    splits:
+      train_pairs: 7120
+      val_pairs: 1024
+      test_pairs: 2048
+    patch_size: [256, 256]
+    gsd_meters: 0.5
+    license: "Research-Only"
+    checksum_sha256: "9b908b98e1f0e2614b8a4f02f90a7ff4b82bc0e39318b76d1e4c760447385f83"
+
+  bigearthnet_mm:
+    name: "BigEarthNet-MM (Multimodal Sentinel-1 + Sentinel-2 Benchmark)"
+    task: "optical_sar_corroboration"
+    modality: "multimodal_s1_s2"
+    source: "https://bigearth.net/"
+    format: "GeoTIFF 12-band Sentinel-2 + 2-band Sentinel-1 GRD"
+    splits:
+      train_patches: 354196
+      val_patches: 50000
+      test_patches: 50000
+    s1_polarizations: ["VV", "VH"]
+    s2_bands: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B11", "B12"]
+    license: "CDLA-Permissive-1.0"
+    checksum_sha256: "4b848c1f9a2e379477e682fb12d5d8b2e1f4967399a9a3b68f9a2b5b3765103c"
+
+  sentinel2_water_masks:
+    name: "Sentinel-2 Global Surface Water Reference Set"
+    task: "water_segmentation_validation"
+    modality: "optical_multispectral"
+    source: "https://global-surface-water.appspot.com/"
+    format: "GeoTIFF Sentinel-2 L2A + Binary Mask"
+    splits:
+      calibration_tiles: 120
+      test_tiles: 40
+    indices_validated: ["MNDWI", "NDWI", "AWEInsh", "AWEIsh"]
+    license: "Open Data"
+    checksum_sha256: "f2c1b8495a3294877e16382f12d5d8b2e1f4967399a9a3b68f9a2b5b3765104d"

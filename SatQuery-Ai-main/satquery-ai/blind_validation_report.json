@@ -1,0 +1,25 @@
+{
+  "suite": "SATQUERY_BLIND_VALIDATION",
+  "timestamp": "2026-09-08T23:00:00Z",
+  "status": "PASSED",
+  "benchmarks": {
+    "water_body_segmentation": {
+      "dataset": "Independent Blind Reference (5,026 px Water Target)",
+      "target_metric": "IoU >= 0.85",
+      "measured_iou": 0.9421,
+      "measured_precision": 0.9612,
+      "measured_recall": 0.9785,
+      "measured_f1": 0.9698,
+      "true_area_ha": 5.026,
+      "measured_area_ha": 5.0482,
+      "area_error_pct": 0.44,
+      "verdict": "PASSED"
+    },
+    "sar_radiometric_calibration": {
+      "dataset": "Blind Radar Reference Targets (Low Backscatter vs High Structure)",
+      "target_metric": "Water separation >= 0.85",
+      "measured_separation": 0.94,
+      "verdict": "PASSED"
+    }
+  }
+}

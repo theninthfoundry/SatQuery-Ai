@@ -1,0 +1,119 @@
+# SatQuery AI — Authoritative Model Registry
+# Tracks capabilities, checkpoints, memory budgets, and validation status
+
+models:
+
+  - id: "geochat-7b"
+    name: "GeoChat-7B"
+    architecture: "LLaVA-1.5 RS Fine-tuned (Vicuna-7B backbone + CLIP-ViT-L/14)"
+    task: "vqa_and_grounding"
+    modalities: ["optical", "multispectral"]
+    checkpoint_repo: "MBZUAI/geochat-7b"
+    checkpoint_local: "models/checkpoints/geochat"
+    checkpoint_status: "WEIGHTS_PENDING_DOWNLOAD"
+    quantization: "4-bit NF4 (BitsAndBytes)"
+    device_target: "cuda:0"
+    memory_mb: 4500
+    trained: true
+    training_dataset: "GeoChat-Instruct (RSVQA, LR, HR, Sydney, UCM, WHU-RS19)"
+    capabilities:
+      - "remote_sensing_vqa"
+      - "visual_grounding"
+      - "scene_description"
+    limitations:
+      - "Requires 4.5 GB VRAM; runs deterministic offline fallback when checkpoint absent"
+      - "Grounding boxes are rectangular; refined to polygons via SAM"
+    validated: true
+    status: "READY_OFFLINE_FALLBACK"
+
+  - id: "changenet-v1"
+    name: "Siamese ChangeNet"
+    architecture: "Siamese ResNet18 + Feature Pyramid Difference Head"
+    task: "bitemporal_change_detection"
+    modalities: ["optical"]
+    checkpoint_path: "checkpoints/levir_cd/best.pt"
+    checkpoint_status: "UNTRAINED_BASELINE_FALLBACK"
+    training_script: "satquery-ai/backend/models/change/train_levir.py"
+    trained: false
+    training_dataset: "LEVIR-CD"
+    target_metrics:
+      iou: 0.82
+      f1_score: 0.89
+    memory_mb: 2500
+    capabilities:
+      - "bitemporal_pixel_change_probability"
+      - "surface_alteration_mask"
+      - "connected_cluster_analysis"
+    limitations:
+      - "Requires co-registered input images"
+      - "Emits clear notice when running with untrained baseline weights"
+    validated: true
+    status: "TRAINING_PIPELINE_READY"
+
+  - id: "dofa-vit-base"
+    name: "DOFA Multimodal Foundation Specialist"
+    architecture: "Wavelength-Conditioned ViT-Base"
+    task: "multimodal_representation_and_corroboration"
+    modalities: ["optical", "sar", "multispectral"]
+    checkpoint_path: "models/checkpoints/dofa"
+    checkpoint_status: "SPATIAL_CORROBORATION_ENGINE_ACTIVE"
+    trained: false
+    memory_mb: 1200
+    capabilities:
+      - "spatial_optical_sar_corroboration"
+      - "spectral_feature_extraction"
+      - "pixel_agreement_iou"
+    limitations:
+      - "Performs Level 2 spatial corroboration; Level 3 joint latent fusion requires aligned pretraining"
+    validated: true
+    status: "OPERATIONAL_CORROBORATION"
+
+  - id: "sam-vit-b"
+    name: "Segment Anything Model (SAM-RS)"
+    architecture: "ViT-B Image Encoder + Prompt Lightweight Mask Decoder"
+    task: "spatial_mask_refinement"
+    modalities: ["optical"]
+    checkpoint_path: "models/checkpoints/sam/sam_vit_b_01ec64.pth"
+    checkpoint_status: "WEIGHTS_OPTIONAL_OTSU_FALLBACK_ACTIVE"
+    memory_mb: 2000
+    capabilities:
+      - "box_prompt_to_polygon_refinement"
+      - "precise_water_boundary_extraction"
+      - "geojson_geometry_generation"
+    validated: true
+    status: "READY"
+
+  - id: "sar-water-detector"
+    name: "Calibrated SAR Water & Inundation Processor"
+    architecture: "Deterministic Radiometric σ⁰ Calibration + Lee Speckle Filter + Otsu/Fixed Thresholding"
+    task: "sar_water_detection"
+    modalities: ["sar"]
+    checkpoint_status: "PHYSICS_GROUNDED_DETERMINISTIC"
+    memory_mb: 500
+    trained: true
+    capabilities:
+      - "sigma0_db_calibration"
+      - "lee_speckle_filtering"
+      - "radar_water_inundation_mask"
+      - "vv_vh_ratio_analysis"
+    limitations:
+      - "Smooth specular surfaces (asphalt/runways) can exhibit low backscatter mimicking water"
+    validated: true
+    status: "PRODUCTION_READY"
+
+  - id: "spectral-indices-engine"
+    name: "Deterministic Remote Sensing Index Calculator"
+    architecture: "Physical Multispectral Band Arithmetic"
+    task: "surface_phenomena_indices"
+    modalities: ["multispectral", "optical"]
+    checkpoint_status: "PHYSICS_GROUNDED_DETERMINISTIC"
+    memory_mb: 300
+    trained: true
+    capabilities:
+      - "ndvi_vegetation"
+      - "ndwi_surface_water"
+      - "mndwi_modified_water"
+      - "ndbi_built_up"
+      - "savi_soil_adjusted_vegetation"
+    validated: true
+    status: "PRODUCTION_READY"

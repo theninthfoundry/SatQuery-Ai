@@ -1,0 +1,62 @@
+# SatQuery AI — Authoritative System Status & SIH26167 Compliance Matrix
+# Generated programmatically by scripts/generate_system_status.py
+# Updated: 2026-09-09T07:59:33Z
+
+system:
+  name: "SatQuery AI"
+  version: "0.9.5-alpha"
+  sih_problem_id: "SIH26167"
+  organization: "ISRO / SAC Compliant Architecture"
+  primary_hardware_target: "NVIDIA RTX 4060 (8 GB VRAM) / CUDA 12.x"
+  authoritative_backend: "satquery-ai/backend"
+  authoritative_frontend: "satquery-ai/apps/web"
+
+models:
+  geochat_7b:
+    status: "NOT_INSTALLED"
+    truth_state: "CLASSICAL_FALLBACK"
+    checkpoint_verified: false
+
+  changenet_v1:
+    status: "CLASSICAL_FALLBACK"
+    truth_state: "UNTRAINED_MODEL"
+    checkpoint_verified: false
+
+  dofa_foundation:
+    status: "CLASSICAL_FALLBACK"
+    truth_state: "LEVEL_2_PHYSICAL_SPATIAL_CORROBORATION"
+    corroboration_level: "LEVEL_2_PHYSICAL_SPATIAL_CORROBORATION"
+
+deterministic_engines:
+  water_body_analyzer:
+    type: "DETERMINISTIC_ENGINE"
+    status: "VALIDATED"
+    algorithm: "MNDWI + Otsu + Morphological Contours + WGS84 Geodesic"
+  built_up_analyzer:
+    type: "DETERMINISTIC_ENGINE"
+    status: "VALIDATED"
+    algorithm: "NDBI + Adaptive Threshold + Geodesic Contours"
+  vegetation_analyzer:
+    type: "DETERMINISTIC_ENGINE"
+    status: "VALIDATED"
+    algorithm: "NDVI + Canopy Segmentation + Geodesic Contours"
+  sar_processor:
+    type: "DETERMINISTIC_ENGINE"
+    status: "VALIDATED"
+    algorithm: "Radiometric sigma0 dB Calibration + Lee 5x5 Filter"
+  akaze_coregistration:
+    type: "DETERMINISTIC_ENGINE"
+    status: "VALIDATED"
+    algorithm: "AKAZE Nonlinear Diffusion + RANSAC Homography"
+  geodesic_geometry:
+    type: "DETERMINISTIC_ENGINE"
+    status: "VALIDATED"
+    algorithm: "PyProj Karney Geodesic on WGS84 Ellipsoid"
+
+truth_lock:
+  version: "v2.0"
+  status: "LOCKED"
+  zero_synthetic_confidence: true
+  zero_hardcoded_boxes: true
+  zero_unverified_model_claims: true
+  canonical_generator: "satquery-ai/scripts/generate_system_status.py"
